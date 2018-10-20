@@ -1278,8 +1278,8 @@ public class ScannerABC {
           case 20: break;
           case 2: 
             { Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 21: break;
           case 3: 
@@ -1299,50 +1299,50 @@ public class ScannerABC {
           case 23: break;
           case 5: 
             { Token t = new Token(yytext(), Types.ERROR_INTEGER, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 24: break;
           case 6: 
             { Token t = new Token(yytext(), Types.OPERATOR, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 25: break;
           case 7: 
             { Token t = new Token(yytext(), Types.ERROR_COMMENT, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 26: break;
           case 8: 
             { Token t = new Token(yytext(), Types.ERROR_STRING, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 27: break;
           case 9: 
             { Token t = new Token(yytext(), Types.ERROR_IDENTIFIER, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 28: break;
           case 10: 
             { Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 29: break;
           case 11: 
             { Token t = new Token(yytext(), Types.RESERVED, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 30: break;
           case 12: 
             { Token t = new Token(yytext(), Types.LOGICAL_OPERATOR, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 31: break;
           case 13: 
@@ -1351,32 +1351,32 @@ public class ScannerABC {
           case 32: break;
           case 14: 
             { Token t = new Token(yytext(), Types.NUMERIC_CHAR_LITERAL, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 33: break;
           case 15: 
             { Token t = new Token(yytext(), Types.STRING_LITERAL, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 34: break;
           case 16: 
             { Token t = new Token(yytext(), Types.FLOATING_POINT_NUMERIC_LITERAL, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 35: break;
           case 17: 
             { Token t = new Token(yytext(), Types.INTEGER_NUMERIC_LITERAL, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 36: break;
           case 18: 
             { Token t = new Token(yytext(), Types.CHAR_LITERAL, yyline);
- this._existenTokens = true;
- return t;
+    this._existenTokens = true;
+    return t;
             }
           case 37: break;
           case 19: 

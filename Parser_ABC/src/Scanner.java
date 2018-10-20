@@ -25,7 +25,7 @@ public class Scanner {
     public static void main(String [ ] args){
 
         try{
-            File file = new File("src/varios.txt");
+            File file = new File("src/literales.txt");
 
             String path = file.getAbsolutePath();
            // Path p = Paths.get("prueba.txt");
