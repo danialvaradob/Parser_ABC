@@ -1,4 +1,4 @@
-/* Secci�n de declaraciones de JFlex */
+ /* Secci�n de declaraciones de JFlex */
 %%
 %caseless 
 %line
@@ -61,7 +61,8 @@ Float3          =       [0-9]+ \. {Exponent}?
 Float           =       ( {Float1} | {Float2} | {Float3} )
 
 
-LogicalOp       =       (AND)|(OR)|(NOT)|(XOR)|(DIV)|(MOD)
+BooleanOp       =       (AND)|(OR)|(NOT)|(XOR)|(\=)|(\>=)|(\>)|(\<=)|(\<)|
+                        (\<>) |
 
 BlockComment    =       \( \* ([^\}]|{NewLine})* \* \) | \{ ([^\}]|{NewLine})* \}
 LineComment     =       \/ \/ (.)*
@@ -74,10 +75,19 @@ ReservedWords   =       (ARRAY)|(BEGIN)|(BOOLEAN)|(BYTE)|(CASE)|(CHAR)|
                         (REPEAT)|(SET)|(SHORTINT)|(STRING)|(THEN)|(TO)|(TRUE)|
                         (TYPE)|(UNTIL)|(VAR)|(WHILE)|(WITH)|(WRITE)
 
-Operators       =       (\,)|(\;)|(\++)|(\--)|(\>=)|(\>)|(\<=)|(\<)|
-                        (\<>)|(\=)|(\+)|(\-)|(\*)|(\/)|(\()|(\))|
-                        (\[)|(\])|(\:=)|(\.)|(\:)|(\+=)|(\-=)|(\*=)|
-                        (\/=)|(\>>)|(\<<)|(\<<=)|(\>>=)
+Operators       =       (\,)|(\;) |
+                        (\[)|(\])|(\.)|(\:) |(\>>)|(\<<)|(\<<=)|(\>>=)
+
+
+ArithmeticOp    =       (\++) | (\--) | (\:=) | (\+) |(\-)| (\*)| (\/) |(MOD) |(DIV)
+                        |(\+=)|(\-=)|(\*=)| (\/=)
+
+
+OpenParenthesis =       (\() 
+
+
+CloseParenthesis =      (\)) 
+
 
 Symbols         =       (\@) | (\#) | (\%) | (\$)
                         | (\^) | (\&) | (\() | (\)) 
@@ -91,7 +101,7 @@ InvalidSymbols  =       (\@) | (\%) | (\$)
 
 
 
-String          =       \" ([^\"] |{NewLine})* \"
+String          =       \" ([^\"] |{NewLine})* \" 
 Char            =       \" ([^\"] |{NewLine}) \"
 
 NumericChar     =       \# {Number}
@@ -178,8 +188,8 @@ NoMatch         =       (.)
 }
 
 
-{LogicalOp} {
-    Token t = new Token(yytext(), Types.LOGICAL_OPERATOR, yyline);
+{BooleanOp} {
+    Token t = new Token(yytext(), Types.BOOLEAN_OPERATOR, yyline);
     this._existenTokens = true;
     return t;
 }
@@ -195,6 +205,21 @@ NoMatch         =       (.)
     this._existenTokens = true;
     return t;
 }
+
+
+{OpenParenthesis} {
+    Token t = new Token(yytext(), Types.OPEN_PARENTHESIS, yyline);
+    this._existenTokens = true;
+    return t;
+}
+
+
+{CloseParenthesis} {
+    Token t = new Token(yytext(), Types.CLOSE_PARENTHESIS, yyline);
+    this._existenTokens = true;
+    return t;
+}
+
 
 
 {ScienNotError} {
@@ -251,6 +276,15 @@ NoMatch         =       (.)
     this._existenTokens = true;
     return t;
 }
+
+{ArithmeticOp} {
+    Token t = new Token(yytext(), Types.ARITHMETICOP, yyline);
+    this._existenTokens = true;
+    return t;
+}
+
+
+
 
 {IntegerError} {
     Token t = new Token(yytext(), Types.ERROR_INTEGER, yyline);
