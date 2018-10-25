@@ -1,3 +1,5 @@
+package scanner;
+
 
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
