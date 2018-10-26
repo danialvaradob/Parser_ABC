@@ -19,6 +19,38 @@ public enum Types {
     STRING_LITERAL, CHAR_LITERAL,NUMERIC_CHAR_LITERAL,EOF,
     OPEN_PARENTHESIS, CLOSE_PARENTHESIS,
     OTHER,
+
+
+    //Reserved Words
+    PROGRAM,
+    ARRAY,
+    BEGIN,
+    BOOLEAN,
+    CASE,
+    CHAR,
+    CONST,
+    DO,
+    ELSE,
+    END,
+    FALSE,
+    FOR,
+    FUNCTION,
+    IF,
+    INT,
+    LONGINT,
+    OF,
+    PROCEDURE,
+    READ,
+    REPEAT,
+    SHORTINT,
+    STRING,
+    THEN,
+    TO,
+    TRUE,
+    UNTIL,
+    VAR,
+    WHILE,
+    WRITE,
     
 
 

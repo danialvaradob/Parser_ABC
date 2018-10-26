@@ -67,13 +67,70 @@ BooleanOp       =       (AND)|(OR)|(NOT)|(XOR)|(\=)|(\>=)|(\>)|(\<=)|(\<)|
 BlockComment    =       \( \* ([^\}]|{NewLine})* \* \) | \{ ([^\}]|{NewLine})* \}
 LineComment     =       \/ \/ (.)*
 
-ReservedWords   =       (ARRAY)|(BEGIN)|(BOOLEAN)|(BYTE)|(CASE)|(CHAR)|
-                        (CONST)|(DO)|(DOWNTO)|(ELSE)|(END)|(FALSE)|(FILE)|
-                        (FOR)|(FORWARD)|(FUNCTION)|(GOTO)|(IF)|(IN)|(INLINE)|
-                        (INT)|(LABEL)|(LONGINT) |(NIL)|(OF)|
-                        (PACKED)|(PROCEDURE)|(PROGRAM)|(READ)|(REAL)|(RECORD)|
-                        (REPEAT)|(SET)|(SHORTINT)|(STRING)|(THEN)|(TO)|(TRUE)|
-                        (TYPE)|(UNTIL)|(VAR)|(WHILE)|(WITH)|(WRITE)
+ReservedWords   =       (BYTE)|(DOWNTO)|(FILE)|
+                        (FORWARD)|(GOTO)|(IF)|(IN)|(INLINE)|(LABEL) |(NIL)|
+                        (PACKED)|(REAL)|(RECORD)|
+                        (REPEAT)|(SET)|
+                        (TYPE)|(|(WITH)
+
+R_Program       =       (PROGRAM)
+
+R_Array         =       (ARRAY)
+
+R_Begin         =       (BEGIN)
+
+R_Boolean       =       (BOOLEAN)
+
+R_Case          =       (CASE)
+
+R_Char          =       (CHAR)
+
+R_Const         =       (CONST)
+
+R_Do            =       (DO)
+
+R_Else          =       (ELSE)
+
+R_End           =       (END)
+
+R_False         =       (FALSE)
+
+R_For           =       (FOR)
+
+R_Function      =       (FUNCTION)
+
+R_If            =       (IF)
+
+R_Int           =       (INT)
+
+R_LongInt       =       (LONGINT)
+
+R_Of            =       (OF)
+
+R_Procedure     =       (PROCEDURE)
+
+R_Read          =       (READ)
+
+R_Repeat        =       (REPEAT)
+
+R_ShortInt      =       (SHORTINT)
+
+R_String        =       (STRING)
+
+R_Then          =       (THEN)
+
+R_To            =       (TO)
+
+R_True          =       (TRUE)
+
+R_Until         =       (UNTIL)
+
+R_Var           =       (VAR)
+
+R_While         =       (WHILE)
+
+R_Write         =       (WRITE)
+
 
 Operators       =       (\,)|(\;) |
                         (\[)|(\])|(\.)|(\:) |(\>>)|(\<<)|(\<<=)|(\>>=)
