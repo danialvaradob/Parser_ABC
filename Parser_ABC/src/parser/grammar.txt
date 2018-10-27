@@ -1,0 +1,45 @@
+program ::= PROGRAM Identificador constants globals functions BEGIN statements END;
+
+constants ::= CONST constants_body;
+
+constants_body ::= Identificador = Literal; constants_body | /*epsilon*/;
+
+globals ::= VAR globals_body;
+
+globals_body ::= Identificador globals_list:Type;
+
+globals_list ::= ,Identificador globals_list | /*epsilon*/;
+
+Type ::= INT|CHAR|STRING;
+
+functions ::= FUNCTION function_header | PROCEDURE function_header;
+
+function_header ::= Identificador (Type Identificador parameter_list):Type BEGIN function_body END;
+
+parameter_list ::= ,Type Identificador parameter_list | /*epsilon*/;
+
+function_body ::= constants globals statements;
+
+statements ::= if_statement|while_statement|for_statement|assignment|fun_call|read|write|/*epsilon*/;
+
+if_statement ::= ID cond THEN statements else_statement END;
+
+cond ::= /*AGREGAR CONDICIONES*/;
+
+else_statement ::= ELSE statements | /*epsilon*/; 
+
+while_statement ::= WHILE cond DO BEGIN statements END;
+
+for_statements ::= FOR Identificador := exp TO exp DO BEGIN statements END;
+
+exp ::= /*AGREGAR EXPRESIONES*/;
+
+assignment ::= Identificador=exp;
+
+fun_call ::= Identificador(Type Identificador paramenter_list)|Identificador();
+
+read ::= read(Type Identificador)|read();
+
+write ::= write(Type Identificador parameter_list);
+
+
