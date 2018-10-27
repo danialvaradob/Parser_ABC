@@ -1,0 +1,78 @@
+import java_cup.runtime.*;
+
+parser code {:
+    // Connect this parser to a scanner!
+    scanner s;
+    Parser(scanner s){ this.s=s; }
+:}
+
+/* define how to connect to the scanner! */
+init with {: s.init(); :};
+scan with {: return s.next_token(); :};
+
+
+  
+terminal LITERAL,IDENTIFIER, PROGRAM,ARRAY,
+    BEGIN,BOOLEAN,CASE,CHAR,CONST,DO,ELSE,
+    END,FALSE,FOR,FUNCTION,IF,INT,LONGINT,
+    OF,PROCEDURE,READ,REPEAT,SHORTINT,
+    STRING,THEN,TO,TRUE,UNTIL,VAR,
+    WHILE,WRITE,EQUAL;
+
+
+non terminal program,constants,constants_body,
+            globals, globals_body, globals_list,
+            Type,functions,function_header,
+            parameter_list,function_body,
+            statements,if_statement,cond,
+            else_statement,while_statement,
+            for_statement,exp,assignment,
+            fun_call,read,write;
+
+
+
+program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END;
+
+constants ::= CONST constants_body;
+
+constants_body ::= IDENTIFIER EQUAL LITERAL; constants_body | /*epsilon*/;
+
+globals ::= VAR globals_body;
+
+globals_body ::= IDENTIFIER globals_list:Type;
+
+globals_list ::= ,IDENTIFIER globals_list | /*epsilon*/;
+
+Type ::= INT|CHAR|STRING;
+
+functions ::= FUNCTION function_header | PROCEDURE function_header;
+
+function_header ::= IDENTIFIER (Type IDENTIFIER parameter_list):Type BEGIN function_body END;
+
+parameter_list ::= ,Type IDENTIFIER parameter_list | /*epsilon*/;
+
+function_body ::= constants globals statements;
+
+statements ::= if_statement|while_statement|for_statement|assignment|fun_call|read|write|/*epsilon*/;
+
+if_statement ::= ID cond THEN statements else_statement END;
+
+cond ::= /*AGREGAR CONDICIONES*/;
+
+else_statement ::= ELSE statements | /*epsilon*/; 
+
+while_statement ::= WHILE cond DO BEGIN statements END;
+
+for_statement ::= FOR IDENTIFIER := exp TO exp DO BEGIN statements END;
+
+exp ::= /*AGREGAR EXPRESIONES*/;
+
+assignment ::= Identificador=exp;
+
+fun_call ::= IDENTIFIER(Type IDENTIFIER paramenter_list);|IDENTIFIER();
+
+read ::= read(Type IDENTIFIER);|read();
+
+write ::= write(Type IDENTIFIER parameter_list);
+
+
