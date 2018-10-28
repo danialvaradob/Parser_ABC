@@ -1,14 +1,47 @@
 import java_cup.runtime.*;
-
+import java.io.FileReader;
+   
+/* Codigo del parser, se copia integramente a la clase final.
+    Agregamos el manejo de errores. */
 parser code {:
-    // Connect this parser to a scanner!
-    scanner s;
-    Parser(scanner s){ this.s=s; }
-:}
+    
+    /* Reporte de error encontrado. */
+    public void report_error(String message, Object info) {
+        StringBuilder m = new StringBuilder("Error");
+        if (info instanceof java_cup.runtime.Symbol) {
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            if (s.left >= 0) {                
+                m.append(" in line "+(s.left+1));
+                if (s.right >= 0)
+                    m.append(", column "+(s.right+1));
+            }
+        }
+        m.append(" : "+message);
+        System.err.println(m);
+    }
+   
+    /* Cuando se encuentra un error de donde el sistema no puede
+        recuperarse, se lanza un error fatal. Se despliega el mensaje
+        de error y se finaliza la ejecucion. */
+    public void report_fatal_error(String message, Object info) {
+        report_error(message, info);
+        System.exit(1);
+    }
 
-/* define how to connect to the scanner! */
-init with {: s.init(); :};
-scan with {: return s.next_token(); :};
+    /* Metodo main para garantizar la ejecucion del analizador
+       lexico y sintactico, ademas que se pase como parametro la tabla
+       de simbolos correspondiente. */
+    public static void main(String[] args){
+        try {
+            /*AnalizadorSintactico asin = new AnalizadorSintactico(
+                    new AnalizadorLexico( new FileReader(args[0])));
+            Object result = asin.parse().value;*/
+            System.out.println("\n*** Resultados finales ***");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+:};
 
 
   
@@ -17,7 +50,9 @@ terminal LITERAL,IDENTIFIER, PROGRAM,ARRAY,
     END,FALSE,FOR,FUNCTION,IF,INT,LONGINT,
     OF,PROCEDURE,READ,REPEAT,SHORTINT,
     STRING,THEN,TO,TRUE,UNTIL,VAR,
-    WHILE,WRITE,EQUAL;
+    WHILE,WRITE,
+    
+    EQUAL,COMMA,SEMI;
 
 
 non terminal program,constants,constants_body,
@@ -35,13 +70,13 @@ program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END;
 
 constants ::= CONST constants_body;
 
-constants_body ::= IDENTIFIER EQUAL LITERAL; constants_body | /*epsilon*/;
+constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body | /*epsilon*/;
 
 globals ::= VAR globals_body;
 
 globals_body ::= IDENTIFIER globals_list:Type;
 
-globals_list ::= ,IDENTIFIER globals_list | /*epsilon*/;
+globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
 Type ::= INT|CHAR|STRING;
 
@@ -49,15 +84,17 @@ functions ::= FUNCTION function_header | PROCEDURE function_header;
 
 function_header ::= IDENTIFIER (Type IDENTIFIER parameter_list):Type BEGIN function_body END;
 
-parameter_list ::= ,Type IDENTIFIER parameter_list | /*epsilon*/;
+parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
 
 function_body ::= constants globals statements;
 
-statements ::= if_statement|while_statement|for_statement|assignment|fun_call|read|write|/*epsilon*/;
+statements ::= if_statement|while_statement|
+                for_statement|assignment|fun_call|
+                read|write|/*epsilon*/;
 
-if_statement ::= ID cond THEN statements else_statement END;
+if_statement ::= IF cond THEN statements else_statement END;
 
-cond ::= /*AGREGAR CONDICIONES*/;
+cond ::= TRUE;
 
 else_statement ::= ELSE statements | /*epsilon*/; 
 
@@ -65,14 +102,15 @@ while_statement ::= WHILE cond DO BEGIN statements END;
 
 for_statement ::= FOR IDENTIFIER := exp TO exp DO BEGIN statements END;
 
-exp ::= /*AGREGAR EXPRESIONES*/;
+exp ::= IDENTIFIER;
 
-assignment ::= Identificador=exp;
+assignment ::= IDENTIFIER=exp;
 
-fun_call ::= IDENTIFIER(Type IDENTIFIER paramenter_list);|IDENTIFIER();
+fun_call ::= IDENTIFIER(Type IDENTIFIER parameter_list) statements|IDENTIFIER();
 
-read ::= read(Type IDENTIFIER);|read();
+read ::= READ(Type IDENTIFIER) statements|READ();
 
-write ::= write(Type IDENTIFIER parameter_list);
+write ::= WRITE(Type IDENTIFIER parameter_list);
+
 
 
