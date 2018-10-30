@@ -53,8 +53,8 @@ public class Scanner {
                 }*/
                 if (!analizadorJFlex.existenTokens())
                 break;
-
-                System.out.println(token.toString());
+                
+                System.out.println(token.value.toString());
             }
             
             System.out.println("  \n \n \n \n");
