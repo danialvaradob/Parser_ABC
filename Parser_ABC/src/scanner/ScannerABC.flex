@@ -77,7 +77,7 @@ Float           =       ( {Float1} | {Float2} | {Float3} )
 
 
 BooleanOp       =       (AND)|(OR)|(NOT)|(XOR)|(\=)|(\>=)|(\>)|(\<=)|(\<)|
-                        (\<>) |
+                        (\<>)
 
 BlockComment    =       \( \* ([^\}]|{NewLine})* \* \) | \{ ([^\}]|{NewLine})* \}
 LineComment     =       \/ \/ (.)*
@@ -390,9 +390,9 @@ NoMatch         =       (.)
 }
  
 
-/*{BlockComment} {
+{BlockComment} {
  // Comentario de bloque 1
-}*/
+}
 {LineComment} {
  // Comentario de bloque 1
 }
