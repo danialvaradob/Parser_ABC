@@ -12,7 +12,7 @@ package scanner;
  * @author CASA
  */
 
-public class Token {
+public class Token{
     Types token;
     String lexema;
     int line = 0;

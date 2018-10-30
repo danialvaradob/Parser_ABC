@@ -1,4 +1,7 @@
  /* Secci�n de declaraciones de JFlex */
+package scanner;
+import java_cup.runtime.*;
+import parser.sym;
 %%
 %caseless 
 %line
@@ -15,11 +18,23 @@
  public boolean existenTokens(){
  return this._existenTokens;
  }
+
+private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
+}
+
+private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+}
+
+private Symbol symbol(String value, int type, int line) {
+    return new Symbol(type, yyline, yycolumn, (Object)value);
+}
  
 %}
  
  /* Al utilizar esta instrucci�n, se le indica a JFlex que devuelva objetos del tipo TokenPersonalizado */
-%type Token
+%type Symbol
  
 %init{
  /* C�digo que se ejecutar� en el constructor de la clase */
@@ -71,7 +86,7 @@ ReservedWords   =       (BYTE)|(DOWNTO)|(FILE)|
                         (FORWARD)|(GOTO)|(IF)|(IN)|(INLINE)|(LABEL) |(NIL)|
                         (PACKED)|(REAL)|(RECORD)|
                         (REPEAT)|(SET)|
-                        (TYPE)|(|(WITH)
+                        (TYPE)|(WITH)
 
 R_Program       =       (PROGRAM)
 
@@ -202,77 +217,92 @@ NoMatch         =       (.)
 
 
 {CommentError} {
-    Token t = new Token(yytext(), Types.ERROR_COMMENT, yyline);
+    Symbol t = new Symbol(sym.ERROR_COMMENT, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_COMMENT, yyline);
     this._existenTokens = true;
     return t;
+    //return symbol(sym.ERROR_COMMENT);
 }
 
 {InvalidCharacter} {
-    Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
+    //Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
+    Symbol t = new Symbol(sym.ERROR_INVALID_CHARACTER, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
-    return t;
+    //return new Symbol(sym.ERROR_INVALID_CHARACTER);
+    return t; 
 }
 
 
 {IdentifierError} {
-    Token t = new Token(yytext(), Types.ERROR_IDENTIFIER, yyline);
+    Symbol t = new Symbol(sym.ERROR_IDENTIFIER, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_IDENTIFIER, yyline);
     this._existenTokens = true;
+    //return symbol(sym.ERROR_IDENTIFIER);
     return t;
 }
 
 {NumericChar} {
-    Token t = new Token(yytext(), Types.NUMERIC_CHAR_LITERAL, yyline);
+    Symbol t = new Symbol(sym.NUMERIC_CHAR_LITERAL, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.NUMERIC_CHAR_LITERAL, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {Char} {
-    Token t = new Token(yytext(), Types.CHAR_LITERAL, yyline);
+    Symbol t = new Symbol(sym.CHAR_LITERAL, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.CHAR_LITERAL, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {String} {
-    Token t = new Token(yytext(), Types.STRING_LITERAL, yyline);
+    Symbol t = new Symbol(sym.STRING_LITERAL, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.STRING_LITERAL, yyline);
     this._existenTokens = true;
     return t;
 }
 
-{StringError} {
-    Token t = new Token(yytext(), Types.ERROR_STRING, yyline);
+{StringError} { 
+    Symbol t = new Symbol(sym.ERROR_STRING, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_STRING, yyline);
     this._existenTokens = true;
     return t;
 }
 
 
 {BooleanOp} {
-    Token t = new Token(yytext(), Types.BOOLEAN_OPERATOR, yyline);
+    Symbol t = new Symbol(sym.BOOLEAN_OPERATOR, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.BOOLEAN_OPERATOR, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {ReservedWords} {
-    Token t = new Token(yytext(), Types.RESERVED, yyline);
+    Symbol t = new Symbol(sym.RESERVED, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.RESERVED, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {Integer} {
-    Token t = new Token(yytext(), Types.INTEGER_NUMERIC_LITERAL, yyline);
+    Symbol t = new Symbol(sym.INTEGER_NUMERIC_LITERAL, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.INTEGER_NUMERIC_LITERAL, yyline);
     this._existenTokens = true;
     return t;
 }
 
 
 {OpenParenthesis} {
-    Token t = new Token(yytext(), Types.OPEN_PARENTHESIS, yyline);
+    Symbol t = new Symbol(sym.OPEN_PARENTHESIS, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.OPEN_PARENTHESIS, yyline);
     this._existenTokens = true;
     return t;
 }
 
 
 {CloseParenthesis} {
-    Token t = new Token(yytext(), Types.CLOSE_PARENTHESIS, yyline);
+    Symbol t = new Symbol(sym.CLOSE_PARENTHESIS, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.CLOSE_PARENTHESIS, yyline);
     this._existenTokens = true;
     return t;
 }
@@ -280,22 +310,26 @@ NoMatch         =       (.)
 
 
 {ScienNotError} {
-    Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {ScienNot} {
-    Token t = new Token(yytext(), Types.SCIENTIFIC_NOTATION_NUMERIC_LITERAL, yyline);
+    Symbol t = new Symbol(sym.SCIENTIFIC_NOTATION_NUMERIC_LITERAL, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.SCIENTIFIC_NOTATION_NUMERIC_LITERAL, yyline);
     this._existenTokens = true;
     return t;
 }
 
  
 {Identifier} {
-    Token t = new Token(yytext(), Types.IDENTIFIER, yyline);
+    Symbol t = new Symbol(sym.IDENTIFIER, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.IDENTIFIER, yyline);
     if (yytext().length()>127){
-        t.setType(Types.ERROR_INVALID_LENGTH);
+        t = new Symbol(sym.ERROR_INVALID_LENGTH, yyline, yycolumn, (Object)yytext());
+        //t.setType(Types.ERROR_INVALID_LENGTH);
     }
      this._existenTokens = true;
      return t;
@@ -303,19 +337,22 @@ NoMatch         =       (.)
  
 
 {FloatError1} {
-    Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {FloatError2} {
-    Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {Float} {
-    Token t = new Token(yytext(), Types.FLOATING_POINT_NUMERIC_LITERAL, yyline);
+    Symbol t = new Symbol(sym.IDENTIFIER, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.FLOATING_POINT_NUMERIC_LITERAL, yyline);
     this._existenTokens = true;
     return t;
 }
@@ -329,13 +366,15 @@ NoMatch         =       (.)
 
 
 {Operators} {
-    Token t = new Token(yytext(), Types.OPERATOR, yyline);
+    Symbol t = new Symbol(sym.OPERATOR, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.OPERATOR, yyline);
     this._existenTokens = true;
     return t;
 }
 
 {ArithmeticOp} {
-    Token t = new Token(yytext(), Types.ARITHMETICOP, yyline);
+    Symbol t = new Symbol(sym.ARITHMETICOP, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ARITHMETICOP, yyline);
     this._existenTokens = true;
     return t;
 }
@@ -344,15 +383,16 @@ NoMatch         =       (.)
 
 
 {IntegerError} {
-    Token t = new Token(yytext(), Types.ERROR_INTEGER, yyline);
+    Symbol t = new Symbol(sym.ERROR_INTEGER, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_INTEGER, yyline);
     this._existenTokens = true;
     return t;
 }
  
 
-{BlockComment} {
+/*{BlockComment} {
  // Comentario de bloque 1
-}
+}*/
 {LineComment} {
  // Comentario de bloque 1
 }
@@ -367,7 +407,8 @@ NoMatch         =       (.)
 }
 
 {NoMatch} {
-    Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
+    Symbol t = new Symbol(sym.ERROR_INVALID_CHARACTER, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
     this._existenTokens = true;
     return t;
 }
