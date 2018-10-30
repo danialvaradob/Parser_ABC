@@ -22,7 +22,7 @@ import java_cup.runtime.Symbol;
 public class Scanner {
     
     // objeto tabla de tokens
-    public static TokenTable table = new TokenTable();
+//    public static TokenTable table = new TokenTable();
     
     
     public static void main(String [ ] args){
@@ -59,7 +59,7 @@ public class Scanner {
             
             System.out.println("  \n \n \n \n");
             
-            table.printTable();
+//            table.printTable();
             
         }catch (Exception e){
             System.out.println(e.toString());
