@@ -42,23 +42,20 @@ public class Scanner {
             ScannerABC analizadorJFlex = new ScannerABC(buffer);
             parser p = new parser(analizadorJFlex);
 
-            while(true){
+            /*while(true){
                 
                 // Obtener el token analizado y mostrar su información
                 Symbol token = analizadorJFlex.next_token();
                 
-                // Agrega el Token a la tabla de Tokens
-                /*if (!(token == null)) {
-                    table.addToken(token);
-                }*/
+              
                 if (!analizadorJFlex.existenTokens())
                 break;
                 
                 System.out.println(token.sym + " " + token.value.toString());
-                Object result = p.parse().value; 
-            }
+                //Object result = p.parse().value; 
+            }*/
             
-            //Object result = p.parse().value; 
+            Object result = p.parse().value; 
             
             System.out.println("  \n \n \n \n");
             

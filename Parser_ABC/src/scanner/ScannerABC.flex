@@ -330,6 +330,18 @@ NoMatch         =       (.)
     return t;
 }
 
+ {R_Var} {
+    Symbol t = new Symbol(sym.VAR, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+ {R_Const} {
+    Symbol t = new Symbol(sym.VAR, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
 {Identifier} {
     Symbol t = new Symbol(sym.IDENTIFIER, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.IDENTIFIER, yyline);

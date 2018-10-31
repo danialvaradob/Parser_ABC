@@ -10,7 +10,7 @@ import parser.sym;
  * <a href="http://www.jflex.de/">JFlex</a> 1.6.1
  * from the specification file <tt>D:/SegundoSemestre2018/Compiladores e Interpretes/Proyectos/Proyecto2/Parser_ABC/Parser_ABC/src/scanner/ScannerABC.flex</tt>
  */
-public class ScannerABC {
+public class ScannerABC implements java_cup.runtime.Scanner {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -961,14 +961,14 @@ private Symbol symbol(String value, int type, int line) {
    * Contains user EOF-code, which will be executed exactly once,
    * when the end of file is reached
    */
-  private void zzDoEOF() {
+  private void zzDoEOF() throws java.io.IOException {
     if (!zzEOFDone) {
       zzEOFDone = true;
      
  /* C�digo a ejecutar al finalizar el an�lisis, en este caso cambiaremos el valor de una variable bandera */
  this._existenTokens = false;
  
-
+  yyclose();
     }
   }
 
@@ -980,7 +980,7 @@ private Symbol symbol(String value, int type, int line) {
    * @return      the next token
    * @exception   java.io.IOException  if any I/O-Error occurs
    */
-  public Symbol yylex() throws java.io.IOException {
+  public Symbol next_token() throws java.io.IOException {
     int zzInput;
     int zzAction;
 
@@ -1113,7 +1113,7 @@ private Symbol symbol(String value, int type, int line) {
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
             zzDoEOF();
-        return null;
+          { return new java_cup.runtime.Symbol(sym.EOF); }
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
