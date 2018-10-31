@@ -55,7 +55,7 @@ public class Scanner {
                 break;
                 
                 System.out.println(token.sym + " " + token.value.toString());
-                //Object result = p.parse().value; 
+                Object result = p.parse().value; 
             }
             
             //Object result = p.parse().value; 
