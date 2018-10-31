@@ -8,6 +8,7 @@ import parser.sym;
 %ignorecase
 %public
 %class ScannerABC
+%cup
 %{
  
  /* C�digo personalizado */
@@ -323,7 +324,12 @@ NoMatch         =       (.)
     return t;
 }
 
- 
+ {R_Program} {
+    Symbol t = new Symbol(sym.PROGRAM, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
 {Identifier} {
     Symbol t = new Symbol(sym.IDENTIFIER, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.IDENTIFIER, yyline);
@@ -362,12 +368,6 @@ NoMatch         =       (.)
  this._existenTokens = true;
  return t;
 }*/
-
-{R_Program} {
-    Symbol t = new Symbol(sym.PROGRAM, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.FLOATING_POINT_NUMERIC_LITERAL, yyline);
-    this._existenTokens = true;
-    re
 
 {Operators} {
     Symbol t = new Symbol(sym.OPERATOR, yyline, yycolumn, (Object)yytext());
