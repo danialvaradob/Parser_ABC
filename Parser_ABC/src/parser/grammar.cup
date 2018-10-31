@@ -1,5 +1,5 @@
 import java_cup.runtime.*;
-import java.io.FileReader;
+
    
 /* Codigo del parser, se copia integramente a la clase final.
     Agregamos el manejo de errores. */
@@ -33,14 +33,16 @@ parser code {:
        de simbolos correspondiente. */
     public static void main(String[] args){
         try {
-            /*AnalizadorSintactico asin = new AnalizadorSintactico(
-                    new AnalizadorLexico( new FileReader(args[0])));
-            Object result = asin.parse().value;*/
             System.out.println("\n*** Resultados finales ***");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
+
+
+
+
 :};
 
 
@@ -137,7 +139,11 @@ statements ::= if_statement|while_statement|
 
 if_statement ::= IF cond THEN statements else_statement END;
 
-cond ::= TRUE;
+cond ::= TRUE 
+         | error
+        {:
+        RESULT = new ErrorExprListNode( "ExprListError ..." ); 
+        :};
 
 else_statement ::= ELSE statements | /*epsilon*/; 
 

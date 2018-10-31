@@ -363,7 +363,11 @@ NoMatch         =       (.)
  return t;
 }*/
 
-
+{R_Program} {
+    Symbol t = new Symbol(sym.PROGRAM, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.FLOATING_POINT_NUMERIC_LITERAL, yyline);
+    this._existenTokens = true;
+    re
 
 {Operators} {
     Symbol t = new Symbol(sym.OPERATOR, yyline, yycolumn, (Object)yytext());

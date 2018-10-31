@@ -28,7 +28,7 @@ public class Scanner {
     public static void main(String [ ] args){
 
         try{
-            File file = new File("src/literales.txt");
+            File file = new File("src/test_1.txt");
 
             String path = file.getAbsolutePath();
            // Path p = Paths.get("prueba.txt");
@@ -54,8 +54,11 @@ public class Scanner {
                 if (!analizadorJFlex.existenTokens())
                 break;
                 
-                System.out.println(token.value.toString());
+                //System.out.println(token.value.toString());
+                Object result = p.parse().value; 
             }
+            
+            //Object result = p.parse().value; 
             
             System.out.println("  \n \n \n \n");
             

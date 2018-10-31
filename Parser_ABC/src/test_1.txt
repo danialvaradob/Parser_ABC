@@ -1,6 +1,7 @@
 //Esta es una prueba para verificar las estructuras de control
 //if-else, while, for
 PROGRAM Prueba
+CONST
 
 VAR
 
