@@ -2,6 +2,7 @@
 //if-else, while, for
 PROGRAM Prueba
 CONST
+const1=10;
 
 VAR
 

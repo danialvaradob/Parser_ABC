@@ -152,8 +152,11 @@ Operators       =       (\,)|(\;) |
                         (\[)|(\])|(\.)|(\:) |(\>>)|(\<<)|(\<<=)|(\>>=)
 
 
-ArithmeticOp    =       (\++) | (\--) | (\:=) | (\+) |(\-)| (\*)| (\/) |(MOD) |(DIV)
+ArithmeticOp    =       (\++) | (\--) | (\:=) | (\+) | (\*)| (\/) |(MOD) |(DIV)
                         |(\+=)|(\-=)|(\*=)| (\/=)
+
+
+MinusOp         =       (\-)
 
 
 OpenParenthesis =       (\() 
@@ -395,6 +398,12 @@ NoMatch         =       (.)
     return t;
 }
 
+{MinusOp} {
+    Symbol t = new Symbol(sym.MINUSOP, yyline, yycolumn, (Object)yytext());
+    //Token t = new Token(yytext(), Types.ARITHMETICOP, yyline);
+    this._existenTokens = true;
+    return t;
+}
 
 
 
