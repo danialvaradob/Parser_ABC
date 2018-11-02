@@ -55,6 +55,7 @@ terminal IDENTIFIER,
     STRING_LITERAL, CHAR_LITERAL,NUMERIC_CHAR_LITERAL,
     OPEN_PARENTHESIS, CLOSE_PARENTHESIS,
     OTHER,
+    MINUS_OP,
     //Reserved Words
     PROGRAM,
     ARRAY,
@@ -151,7 +152,9 @@ while_statement ::= WHILE cond DO BEGIN statements END;
 
 for_statement ::= FOR IDENTIFIER := exp TO exp DO BEGIN statements END;
 
-exp ::= IDENTIFIER;
+exp ::= IDENTIFIER | OPEN_PARENTHESIS exp CLOSE_PARENTHESIS | TRUE | FALSE |  FLOATING_POINT_NUMERIC_LITERAL | 
+        INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | STRING_LITERAL | NUMERIC_CHAR_LITERAL | 
+        CHAR_LITERAL | fun_call | exp BOOLEAN_OPERATOR exp | exp ARITHMETICOP exp | MINUS_OP exp |   ;
 
 assignment ::= IDENTIFIER=exp;
 
@@ -160,6 +163,9 @@ fun_call ::= IDENTIFIER(Type IDENTIFIER parameter_list) statements|IDENTIFIER();
 read ::= READ(Type IDENTIFIER) statements|READ();
 
 write ::= WRITE(Type IDENTIFIER parameter_list);
+
+
+
 
 
 
