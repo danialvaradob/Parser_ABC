@@ -147,9 +147,23 @@ R_While         =       (WHILE)
 
 R_Write         =       (WRITE)
 
+O_Equal         =       (\=)
+
+o_OpenP         =       (\()
+
+O_CloseP        =       (\))
+
+O_Equal         =       (\=)
+
+O_Comma         =       (\,)
+
+O_Semi          =       (\;)
+
+O_Colon         =       (\:)
+
 
 Operators       =       (\,)|(\;) |
-                        (\[)|(\])|(\.)|(\:) |(\>>)|(\<<)|(\<<=)|(\>>=)
+                        (\[)|(\])|(\.)|(\>>)|(\<<)|(\<<=)|(\>>=)
 
 
 ArithmeticOp    =       (\++) | (\--) | (\:=) | (\+) | (\*)| (\/) |(MOD) |(DIV)
@@ -311,6 +325,37 @@ NoMatch         =       (.)
     return t;
 }
 
+{O_Equal} {
+    Symbol t = new Symbol(sym.EQUAL, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+
+{O_Comma} {
+    Symbol t = new Symbol(sym.COMMA, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{O_Semi} {
+    Symbol t = new Symbol(sym.SEMI, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{O_Colon} {
+    Symbol t = new Symbol(sym.COLON, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_End} {
+    Symbol t = new Symbol(sym.END, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
 
 
 {ScienNotError} {
@@ -340,7 +385,7 @@ NoMatch         =       (.)
 }
 
  {R_Const} {
-    Symbol t = new Symbol(sym.VAR, yyline, yycolumn, (Object)yytext());
+    Symbol t = new Symbol(sym.CONST, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
 }

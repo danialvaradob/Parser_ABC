@@ -91,6 +91,8 @@ terminal IDENTIFIER,
     LITERAL,
     SEMI,
     COMMA,
+    MINUSOP,
+    COLON,
     
     ERROR_COMMENT,
     ERROR_FLOATING_POINT,
@@ -108,7 +110,8 @@ non terminal program,constants,constants_body,
             statements,if_statement,cond,
             else_statement,while_statement,
             for_statement,exp,assignment,
-            fun_call,read,write;
+            fun_call,read,write,
+            exp2,cond2;
 
 
 
@@ -128,7 +131,7 @@ Type ::= INT|CHAR|STRING;
 
 functions ::= FUNCTION function_header | PROCEDURE function_header;
 
-function_header ::= IDENTIFIER (Type IDENTIFIER parameter_list):Type BEGIN function_body END;
+function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END;
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
 
@@ -138,32 +141,39 @@ statements ::= if_statement|while_statement|
                 for_statement|assignment|fun_call|
                 read|write|/*epsilon*/;
 
-if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END \
+if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS {:
-                                                            RESULT = new ErrorExprListNode( "ExprListError ..." ); 
+                                                            //RESULT = new ErrorExprListNode( "ExprListError ..." ); 
                                                             :};
 
-cond ::= IDENTIFIER | OPEN_PARENTHESIS cond CLOSE_PARENTHESIS | TRUE | FALSE
-         |fun_call | cond BOOLEAN_OPERATOR cond; 
+cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2| 
+        TRUE cond2| FALSE cond2
+         |fun_call cond2; 
+
+cond2 ::= BOOLEAN_OPERATOR cond cond2;
          
 
 else_statement ::= ELSE statements | /*epsilon*/; 
 
 while_statement ::= WHILE cond DO BEGIN statements END;
 
-for_statement ::= FOR IDENTIFIER := exp TO exp DO BEGIN statements END;
+for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END;
 
-exp ::= IDENTIFIER | OPEN_PARENTHESIS exp CLOSE_PARENTHESIS | TRUE | FALSE |  FLOATING_POINT_NUMERIC_LITERAL | 
-        INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | STRING_LITERAL | NUMERIC_CHAR_LITERAL | 
-        CHAR_LITERAL | fun_call | exp BOOLEAN_OPERATOR exp | exp ARITHMETICOP exp | MINUS_OP exp;
+exp ::= IDENTIFIER exp2| OPEN_PARENTHESIS exp CLOSE_PARENTHESIS exp2| TRUE exp2| FALSE exp2|  
+        FLOATING_POINT_NUMERIC_LITERAL exp2| 
+        INTEGER_NUMERIC_LITERAL exp2| SCIENTIFIC_NOTATION_NUMERIC_LITERAL exp2| 
+        STRING_LITERAL exp2| NUMERIC_CHAR_LITERAL exp2| 
+        CHAR_LITERAL exp2| fun_call exp2| MINUSOP exp exp2;
 
-assignment ::= IDENTIFIER=exp;
+exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2;
 
-fun_call ::= IDENTIFIER(Type IDENTIFIER parameter_list) statements|IDENTIFIER();
+assignment ::= IDENTIFIER EQUAL exp;
 
-read ::= READ(Type IDENTIFIER) statements|READ();
+fun_call ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS statements|IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
-write ::= WRITE(Type IDENTIFIER parameter_list);
+read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS statements|READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
+
+write ::= WRITE OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS;
 
 
 

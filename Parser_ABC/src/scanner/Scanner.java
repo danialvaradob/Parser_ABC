@@ -51,7 +51,7 @@ public class Scanner {
                 if (!analizadorJFlex.existenTokens())
                 break;
                 
-                System.out.println(token.sym + " " + token.value.toString());
+                //System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
                 //Object result = p.parse().value; 
             }*/
             
