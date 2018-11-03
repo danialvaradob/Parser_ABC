@@ -12,7 +12,7 @@ BEGIN
 
 // Pruebas del IF
 
-  if () then //deberia dar error, pues debe haber una expresion
+  if (true) then //deberia dar error, pues debe haber una expresion
   i:=0;
   else
     i:=0;

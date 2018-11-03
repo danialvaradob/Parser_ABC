@@ -24,7 +24,19 @@ public class Scanner {
     // objeto tabla de tokens
 //    public static TokenTable table = new TokenTable();
     
-    
+    private static void printScannedTokens(ScannerABC analizadorJFlex){
+        try{
+            while(true){
+                    // Obtener el token analizado y mostrar su información
+                    Symbol token = analizadorJFlex.next_token();
+                    if (!analizadorJFlex.existenTokens())
+                    break;
+                    System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
+                    //Object result = p.parse().value; 
+            }
+        }catch(Exception e){}
+            
+    }
     public static void main(String [ ] args){
 
         try{
@@ -42,18 +54,7 @@ public class Scanner {
             ScannerABC analizadorJFlex = new ScannerABC(buffer);
             parser p = new parser(analizadorJFlex);
 
-            /*while(true){
-                
-                // Obtener el token analizado y mostrar su información
-                Symbol token = analizadorJFlex.next_token();
-                
-              
-                if (!analizadorJFlex.existenTokens())
-                break;
-                
-                //System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
-                //Object result = p.parse().value; 
-            }*/
+            //printScannedTokens(analizadorJFlex); 
             
             Object result = p.parse().value; 
             

@@ -4,6 +4,7 @@ import java_cup.runtime.*;
 import parser.sym;
 %%
 %caseless 
+%ignorecase
 %line
 %ignorecase
 %public
@@ -66,7 +67,7 @@ Identifier      =       {Alpha}({AlphaNumeric})*
 Number          =       ({Digit})+
 WhiteSpace      =       ([\ \n\r\t\f])+ 
 Zero            =       0
-Integer         =       [1-9][0-9]*//(\.){Zero} | {Zero} \. {Zero}
+Integer         =       [1-9][0-9]* | {Zero}
 Float1          =       [0-9]+ \. [0-9]+
 
 Exponent        =       [E] [\+ \-]? [0-9]+
@@ -77,14 +78,14 @@ Float3          =       [0-9]+ \. {Exponent}?
 Float           =       ( {Float1} | {Float2} | {Float3} )
 
 
-BooleanOp       =       (AND)|(OR)|(NOT)|(XOR)|(\=)|(\>=)|(\>)|(\<=)|(\<)|
+BooleanOp       =       (AND)|(OR)|(NOT)|(XOR)|(\>=)|(\>)|(\<=)|(\<)|
                         (\<>)
 
 BlockComment    =       \( \* ([^\}]|{NewLine})* \* \) | \{ ([^\}]|{NewLine})* \}
 LineComment     =       \/ \/ (.)*
 
 ReservedWords   =       (BYTE)|(DOWNTO)|(FILE)|
-                        (FORWARD)|(GOTO)|(IF)|(IN)|(INLINE)|(LABEL) |(NIL)|
+                        (FORWARD)|(GOTO)|(IN)|(INLINE)|(LABEL) |(NIL)|
                         (PACKED)|(REAL)|(RECORD)|
                         (REPEAT)|(SET)|
                         (TYPE)|(WITH)
@@ -180,7 +181,7 @@ CloseParenthesis =      (\))
 
 
 Symbols         =       (\@) | (\#) | (\%) | (\$)
-                        | (\^) | (\&) | (\() | (\)) 
+                        | (\^) | (\&)  
                         | (\º) | (\á) | (\!) | (\¿)
                         | (\¡) | (\*)
 
@@ -215,7 +216,7 @@ IdentifierError =       ({Digit}|{Char} | {String} | {ScienNot} | {Float1} |
 
                         {Alpha}+ | {Symbols}(Idenfitifer)
 
-IntegerError    =       {Digit}+
+//IntegerError    =       {Digit}+
 StringError     =       \" ([^\"] |{NewLine})* 
 
 InvalidCharacter =      ({Alpha})*({InvalidSymbols})+({AlphaNumeric})*
@@ -321,6 +322,36 @@ NoMatch         =       (.)
 {CloseParenthesis} {
     Symbol t = new Symbol(sym.CLOSE_PARENTHESIS, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.CLOSE_PARENTHESIS, yyline);
+    this._existenTokens = true;
+    return t;
+}
+
+
+
+
+
+{R_Then} {
+    Symbol t = new Symbol(sym.THEN, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+
+{R_If} {
+    Symbol t = new Symbol(sym.IF, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Int} {
+    Symbol t = new Symbol(sym.INT, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+
+{R_Begin} {
+    Symbol t = new Symbol(sym.BEGIN, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
 }
@@ -452,12 +483,12 @@ NoMatch         =       (.)
 
 
 
-{IntegerError} {
+/*{IntegerError} {
     Symbol t = new Symbol(sym.ERROR_INTEGER, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.ERROR_INTEGER, yyline);
     this._existenTokens = true;
     return t;
-}
+}*/
  
 
 {BlockComment} {

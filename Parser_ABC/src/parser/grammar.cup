@@ -1,10 +1,10 @@
+package parser;
 import java_cup.runtime.*;
 
    
 /* Codigo del parser, se copia integramente a la clase final.
     Agregamos el manejo de errores. */
 parser code {:
-    
     /* Reporte de error encontrado. */
     public void report_error(String message, Object info) {
         StringBuilder m = new StringBuilder("Error");
@@ -119,17 +119,24 @@ program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END;
 
 constants ::= CONST constants_body;
 
-constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body | /*epsilon*/;
+constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body | 
+                    IDENTIFIER EQUAL INTEGER_NUMERIC_LITERAL SEMI constants_body| 
+                   IDENTIFIER EQUAL STRING_LITERAL SEMI constants_body |
+                   IDENTIFIER EQUAL CHAR_LITERAL SEMI constants_body | 
+                    IDENTIFIER EQUAL FLOATING_POINT_NUMERIC_LITERAL SEMI constants_body | 
+                   IDENTIFIER EQUAL NUMERIC_CHAR_LITERAL SEMI constants_body |
+                   IDENTIFIER EQUAL SCIENTIFIC_NOTATION_NUMERIC_LITERAL SEMI constants_body 
+                    |/*epsilon*/;
 
 globals ::= VAR globals_body;
 
-globals_body ::= IDENTIFIER globals_list:Type;
+globals_body ::= IDENTIFIER globals_list COLON Type SEMI;
 
 globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
 Type ::= INT|CHAR|STRING;
 
-functions ::= FUNCTION function_header | PROCEDURE function_header;
+functions ::= FUNCTION function_header | PROCEDURE function_header | /*epsilon*/;
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END;
 
@@ -146,11 +153,15 @@ if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else
                                                             //RESULT = new ErrorExprListNode( "ExprListError ..." ); 
                                                             :};
 
-cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2| 
+cond ::= IDENTIFIER | OPEN_PARENTHESIS cond CLOSE_PARENTHESIS | 
+        TRUE | FALSE 
+         |fun_call; 
+
+/*cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2| 
         TRUE cond2| FALSE cond2
          |fun_call cond2; 
 
-cond2 ::= BOOLEAN_OPERATOR cond cond2;
+cond2 ::= BOOLEAN_OPERATOR cond cond2;*/
          
 
 else_statement ::= ELSE statements | /*epsilon*/; 
