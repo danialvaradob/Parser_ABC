@@ -144,9 +144,14 @@ parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
 
 function_body ::= constants globals statements;
 
-statements ::= if_statement|while_statement|
+
+
+statements ::= statement SEMI statements | /*epsilon*/;
+
+statement ::= if_statement|while_statement|
                 for_statement|assignment|fun_call|
                 read|write|/*epsilon*/;
+
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS {:
@@ -178,7 +183,7 @@ exp ::= IDENTIFIER exp2| OPEN_PARENTHESIS exp CLOSE_PARENTHESIS exp2| TRUE exp2|
 
 exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2;
 
-assignment ::= IDENTIFIER EQUAL exp;
+assignment ::= IDENTIFIER COLON EQUAL exp;
 
 fun_call ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS statements|IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
