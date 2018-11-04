@@ -142,7 +142,7 @@ function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list C
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
 
-function_body ::= constants globals statements;
+function_body ::= constants globals statements assignment;
 
 
 
@@ -155,8 +155,9 @@ statement ::= if_statement|while_statement|
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS {:
-                                                            //RESULT = new ErrorExprListNode( "ExprListError ..." ); 
-                                                            :};
+                                                               : parser.report_error("La funcion solo acepta 1 parámetro", null); 
+                                                               :}; 
+                                                            
 
 cond ::= IDENTIFIER | OPEN_PARENTHESIS cond CLOSE_PARENTHESIS | 
         TRUE | FALSE 
@@ -184,6 +185,8 @@ exp ::= IDENTIFIER exp2| OPEN_PARENTHESIS exp CLOSE_PARENTHESIS exp2| TRUE exp2|
 exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2;
 
 assignment ::= IDENTIFIER COLON EQUAL exp;
+
+fun_return ::= 
 
 fun_call ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS statements|IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
