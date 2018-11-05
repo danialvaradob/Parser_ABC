@@ -111,7 +111,7 @@ non terminal program,constants,constants_body,
             else_statement,while_statement,
             for_statement,exp,assignment,
             fun_call,read,write,
-            exp2,cond2;
+            exp2,cond2,statement;
 
 
 
@@ -126,11 +126,13 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
                     IDENTIFIER EQUAL FLOATING_POINT_NUMERIC_LITERAL SEMI constants_body | 
                    IDENTIFIER EQUAL NUMERIC_CHAR_LITERAL SEMI constants_body |
                    IDENTIFIER EQUAL SCIENTIFIC_NOTATION_NUMERIC_LITERAL SEMI constants_body 
-                    |/*epsilon*/;
+                    |  IDENTIFIER EQUAL error SEMI {: parser.report_error("Error al declarar una constante", null); :};
+                    | /*epsilon*/;
 
 globals ::= VAR globals_body;
 
-globals_body ::= IDENTIFIER globals_list COLON Type SEMI;
+globals_body ::= IDENTIFIER globals_list COLON Type SEMI | 
+                 IDENTIFIER globals_list COLON error SEMI {: parser.report_error("Tipo no existe", null); :} ;
 
 globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
@@ -138,7 +140,10 @@ Type ::= INT|CHAR|STRING;
 
 functions ::= FUNCTION function_header | PROCEDURE function_header | /*epsilon*/;
 
-function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END;
+function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
+                   | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
+                                                               : parser.report_error("La func", null); 
+                                                               :}; 
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
 
@@ -154,8 +159,8 @@ statement ::= if_statement|while_statement|
 
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
-                | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS {:
-                                                               : parser.report_error("La funcion solo acepta 1 parámetro", null); 
+                | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS THEN statements else_statement END {:
+                                                               : parser.report_error("Error en la condicion", null); 
                                                                :}; 
                                                             
 
@@ -172,9 +177,12 @@ cond2 ::= BOOLEAN_OPERATOR cond cond2;*/
 
 else_statement ::= ELSE statements | /*epsilon*/; 
 
-while_statement ::= WHILE cond DO BEGIN statements END;
+while_statement ::= WHILE cond DO BEGIN statements END | WHILE error DO BEGIN statements END{:
+                                                               : parser.report_error("Error en la condicion", null); 
+                                                               :};
 
-for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END;
+for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END | 
+                  FOR error TO exp DO BEGIN statements END {: parser.report_error("Debe de asignar un valor", null); :};
 
 exp ::= IDENTIFIER exp2| OPEN_PARENTHESIS exp CLOSE_PARENTHESIS exp2| TRUE exp2| FALSE exp2|  
         FLOATING_POINT_NUMERIC_LITERAL exp2| 
@@ -184,9 +192,9 @@ exp ::= IDENTIFIER exp2| OPEN_PARENTHESIS exp CLOSE_PARENTHESIS exp2| TRUE exp2|
 
 exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2;
 
-assignment ::= IDENTIFIER COLON EQUAL exp;
-
-fun_return ::= 
+assignment ::= IDENTIFIER COLON EQUAL exp | IDENTIFIER COLON EQUAL error SEMI {:
+                                                               : parser.report_error("Error en la asignacion", null); 
+                                                               :};
 
 fun_call ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS statements|IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
