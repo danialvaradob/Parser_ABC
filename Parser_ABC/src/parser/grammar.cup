@@ -138,12 +138,18 @@ globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
 Type ::= INT|CHAR|STRING;
 
-functions ::= FUNCTION function_header | PROCEDURE function_header | /*epsilon*/;
+functions ::= FUNCTION function_header | PROCEDURE function_header | FUNCTION error END {:
+                                                               : parser.report_error("Error al declarar la funcion", null); 
+                                                               :};  |/*epsilon*/;
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
                                                                : parser.report_error("La func", null); 
                                                                :}; 
+                   | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN error END 
+                   {:
+                     : parser.report_error("Error en el cuerpo de la funcion", null); 
+                     :};
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
 
