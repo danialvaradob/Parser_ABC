@@ -115,7 +115,10 @@ non terminal program,constants,constants_body,
 
 
 
-program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END;
+program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
+            | error  IDENTIFIER constants globals functions BEGIN statements END{:
+                                                               : parser.report_error("Error, palabra reservada program no encontrada", null); 
+                                                               :};;
 
 constants ::= CONST constants_body;
 
@@ -144,14 +147,18 @@ functions ::= FUNCTION function_header | PROCEDURE function_header | FUNCTION er
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
-                                                               : parser.report_error("La func", null); 
+                                                               : parser.report_error("Error en los argumentos de la funcion", null); 
                                                                :}; 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN error END 
                    {:
                      : parser.report_error("Error en el cuerpo de la funcion", null); 
                      :};
 
-parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
+parameter_list ::= COMMA Type IDENTIFIER parameter_list | 
+                COMMA error IDENTIFIER parameter_list{: 
+                                                      : parser.report_error("No especificado el tipo de un parametro", null); 
+                                                      :}; 
+                |/*epsilon*/;
 
 function_body ::= constants globals statements assignment;
 
