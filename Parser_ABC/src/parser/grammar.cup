@@ -118,7 +118,7 @@ non terminal program,constants,constants_body,
 program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
             | error  IDENTIFIER constants globals functions BEGIN statements END{:
                                                                : parser.report_error("Error, palabra reservada program no encontrada", null); 
-                                                               :};;
+                                                               :};
 
 constants ::= CONST constants_body;
 
@@ -129,13 +129,13 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
                     IDENTIFIER EQUAL FLOATING_POINT_NUMERIC_LITERAL SEMI constants_body | 
                    IDENTIFIER EQUAL NUMERIC_CHAR_LITERAL SEMI constants_body |
                    IDENTIFIER EQUAL SCIENTIFIC_NOTATION_NUMERIC_LITERAL SEMI constants_body 
-                    |  IDENTIFIER EQUAL error SEMI {: parser.report_error("Error al declarar una constante", null); :};
+                    |  IDENTIFIER EQUAL error SEMI {: parser.report_error("Error al declarar una constante", null);:}
                     | /*epsilon*/;
 
 globals ::= VAR globals_body;
 
 globals_body ::= IDENTIFIER globals_list COLON Type SEMI | 
-                 IDENTIFIER globals_list COLON error SEMI {: parser.report_error("Tipo no existe", null); :} ;
+                 IDENTIFIER globals_list COLON error SEMI {: parser.report_error("Tipo no existe", null); :};
 
 globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
@@ -143,12 +143,12 @@ Type ::= INT|CHAR|STRING;
 
 functions ::= FUNCTION function_header | PROCEDURE function_header | FUNCTION error END {:
                                                                : parser.report_error("Error al declarar la funcion", null); 
-                                                               :};  |/*epsilon*/;
+                                                               :}  |/*epsilon*/;
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
                                                                : parser.report_error("Error en los argumentos de la funcion", null); 
-                                                               :}; 
+                                                               :}
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN error END 
                    {:
                      : parser.report_error("Error en el cuerpo de la funcion", null); 
@@ -157,7 +157,7 @@ function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list C
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | 
                 COMMA error IDENTIFIER parameter_list{: 
                                                       : parser.report_error("No especificado el tipo de un parametro", null); 
-                                                      :}; 
+                                                      :}
                 |/*epsilon*/;
 
 function_body ::= constants globals statements assignment;
@@ -174,7 +174,7 @@ statement ::= if_statement|while_statement|
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS THEN statements else_statement END {:
                                                                : parser.report_error("Error en la condicion", null); 
-                                                               :}; 
+                                                               :};
                                                             
 
 cond ::= IDENTIFIER | OPEN_PARENTHESIS cond CLOSE_PARENTHESIS | 
