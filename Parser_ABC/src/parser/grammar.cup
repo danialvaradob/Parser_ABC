@@ -118,14 +118,17 @@ non terminal program,constants,constants_body,
 
 precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
 
-start with program;
 
-program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END ;
-            /*| error  IDENTIFIER constants globals functions BEGIN statements END{:
+program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END
+           | PROGRAM IDENTIFIER globals constants functions BEGIN statements END
+           | PROGRAM IDENTIFIER constants functions BEGIN statements END
+           | PROGRAM IDENTIFIER globals functions BEGIN statements END
+           | PROGRAM IDENTIFIER functions BEGIN statements END
+            | error  IDENTIFIER constants globals functions BEGIN statements END{:
                                                                 parser.report_error("Error, palabra reservada program no encontrada", null); 
-                                                               :};*/
+                                                               :};
 
-constants ::= | CONST constants_body;
+constants ::= CONST constants_body;
 
 constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body | 
                     IDENTIFIER EQUAL INTEGER_NUMERIC_LITERAL SEMI constants_body| 
@@ -137,7 +140,7 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
                     |  IDENTIFIER EQUAL error SEMI {: parser.report_error("Error al declarar una constante", null);:}
                     | /*epsilon*/;
 
-globals ::= | VAR globals_body ;
+globals ::= VAR globals_body ;
 
 
 globals_body ::= /*epsilon*/ | IDENTIFIER globals_list COLON Type SEMI globals_body | 
@@ -165,7 +168,8 @@ function_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS COLON Type BEG
                      :};
 
 
-procedure_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS BEGIN function_body END;
+procedure_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS BEGIN function_body END |
+                    IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS BEGIN function_body END;
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | 
                 COMMA error IDENTIFIER parameter_list{: 
@@ -174,7 +178,11 @@ parameter_list ::= COMMA Type IDENTIFIER parameter_list |
                 |/*epsilon*/;
 
 
-function_body ::= constants globals statements;// assignment;
+function_body ::= constants globals statements 
+                 |globals constants statements 
+                | globals statements 
+                | constants statements 
+                | statements;
 
 
 statements ::= if_statement statements |while_statement statements|
@@ -244,7 +252,7 @@ assignment ::= IDENTIFIER COLON EQUAL exp SEMI | IDENTIFIER COLON EQUAL error SE
 
 
 
-read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS
+read ::= READ OPEN_PARENTHESIS IDENTIFIER CLOSE_PARENTHESIS SEMI
         |READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
 write ::= WRITE OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS SEMI;

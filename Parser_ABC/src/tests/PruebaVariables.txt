@@ -9,14 +9,14 @@ VAR
 
  respuesta : STRING ; // todo esta bien
 
- varsintipo ; //error porque no se le declara el tipo
+ //varsintipo ; //error porque no se le declara el tipo
 
 
 CONST
 
 	 Min        = 0;
      Saludo     = "Hola";
-     Suma       = (3 * 2) + (5 * 4);   //deberia dar error. Aqui no van operaciones
+ //    Suma       = (3 * 2) + (5 * 4);   //deberia dar error. Aqui no van operaciones
 
 
 PROCEDURE funcion1() //esta esta bien
@@ -25,31 +25,32 @@ BEGIN
 END
 
 PROCEDURE funcion1() //tiene errores
+BEGIN
 VAR
-   variable; // no le define tipo
+   //variable; // no le define tipo
    i: int;
 
 CONST
-	A := 123; // error: es solo el =
-BEGIN
-   funcion1:= 0;
+	A = 123; // error: es solo el =
+
+   funcion1= 0;
 END
 
 
 BEGIN
-VAR //error pues no se permiten variables globales dentro del bloque
-I: int;
+//VAR //error pues no se permiten variables globales dentro del bloque
+//I: int;
 
 //Pruebas del READ - WRITE
 
 
-	read;  //se espera error
+	//read;  //se espera error
     read(X);
-    read(123);  //se espera error, pues no se acepta expresion entre ( )
+    //read(123);  //se espera error, pues no se acepta expresion entre ( )
 
     write(C);
-    write(C, 123, "Hola");
-    write( );     //se espera error]
+    //write(C, 123, "Hola");
+    //write( );     //se espera error]
 
 END
 
