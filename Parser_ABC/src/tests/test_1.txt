@@ -16,12 +16,13 @@ BEGIN
   i:=0;
   else
     i:=0;
-
-  if (a<>TRUE then //deberia dar error, pues no cierra la expresion
+    
+  if (true) then //deberia dar error, pues no cierra la expresion
     i:=0;
   else
     i:=0;
-
+  end
+  
   if (x=2)  //error sin then
     i:= x++;
   else

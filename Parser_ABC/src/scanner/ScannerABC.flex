@@ -167,7 +167,7 @@ Operators       =       (\,)|(\;) |
                         (\[)|(\])|(\.)|(\>>)|(\<<)|(\<<=)|(\>>=)
 
 
-ArithmeticOp    =       (\++) | (\--) | (\:=) | (\+) | (\*)| (\/) |(MOD) |(DIV)
+ArithmeticOp    =       (\++) | (\--) | (\+) | (\*)| (\/) |(MOD) |(DIV)
                         |(\+=)|(\-=)|(\*=)| (\/=)
 
 
@@ -326,9 +326,126 @@ NoMatch         =       (.)
     return t;
 }
 
+/*
+R_Program
+R_Array
+R_Begin
+R_Boolean
+R_Case
+R_If
+R_Int
+*/
 
 
 
+{R_Do} {
+    Symbol t = new Symbol(sym.DO, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_False} {
+    Symbol t = new Symbol(sym.FALSE, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_For} {
+    Symbol t = new Symbol(sym.FUNCTION, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Function} {
+    Symbol t = new Symbol(sym.FUNCTION, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Read} {
+    Symbol t = new Symbol(sym.READ, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Procedure} {
+    Symbol t = new Symbol(sym.PROCEDURE, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Of} {
+    Symbol t = new Symbol(sym.OF, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Repeat} {
+    Symbol t = new Symbol(sym.REPEAT, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+/*{R_ShortInt} {
+    Symbol t = new Symbol(sym.SHORTINT, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}*/
+
+{R_String} {
+    Symbol t = new Symbol(sym.STRING, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+
+{R_Then} {
+    Symbol t = new Symbol(sym.THEN, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_To} {
+    Symbol t = new Symbol(sym.TO, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_True} {
+    Symbol t = new Symbol(sym.TRUE, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Until} {
+    Symbol t = new Symbol(sym.UNTIL, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Var} {
+    Symbol t = new Symbol(sym.VAR, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_While} {
+    Symbol t = new Symbol(sym.WHILE, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Write} {
+    Symbol t = new Symbol(sym.WRITE, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
+
+{R_Else} {
+    Symbol t = new Symbol(sym.ELSE, yyline, yycolumn, (Object)yytext());
+    this._existenTokens = true;
+    return t;
+}
 
 {R_Then} {
     Symbol t = new Symbol(sym.THEN, yyline, yycolumn, (Object)yytext());

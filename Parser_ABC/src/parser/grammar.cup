@@ -106,18 +106,22 @@ terminal IDENTIFIER,
 non terminal program,constants,constants_body,
             globals, globals_body, globals_list,
             Type,functions,function_header,
-            parameter_list,function_body,
+            parameter_list, parameter_list_call,
+            function_body,
             statements,if_statement,cond,
             else_statement,while_statement,
             for_statement,exp,assignment,
-            fun_call,read,write,
-            exp2,cond2;
+            fun_call,//fun_def,
+            read,write,
+            exp1,exp2,cond2, literal, procedure_header;
+
+precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
 
 
 
 program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END;
 
-constants ::= CONST constants_body;
+constants ::= | CONST constants_body;
 
 constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body | 
                     IDENTIFIER EQUAL INTEGER_NUMERIC_LITERAL SEMI constants_body| 
@@ -128,61 +132,79 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
                    IDENTIFIER EQUAL SCIENTIFIC_NOTATION_NUMERIC_LITERAL SEMI constants_body 
                     |/*epsilon*/;
 
-globals ::= VAR globals_body;
+globals ::= | VAR globals_body ;
 
-globals_body ::= IDENTIFIER globals_list COLON Type SEMI;
+globals_body ::= IDENTIFIER globals_list COLON Type SEMI globals_body;
 
 globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
 Type ::= INT|CHAR|STRING;
 
-functions ::= FUNCTION function_header | PROCEDURE function_header | /*epsilon*/;
+functions ::= FUNCTION function_header functions | PROCEDURE procedure_header functions 
+              | /*epsilon*/;
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END;
 
-parameter_list ::= COMMA Type IDENTIFIER parameter_list | /*epsilon*/;
+//procedures ::= PROCEDURE function_header | PROCEDURE function_header | /*epsilon*/;
+
+procedure_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS BEGIN function_body END;
+
+parameter_list ::= /*epsilon*/ | COMMA Type IDENTIFIER parameter_list ;
 
 function_body ::= constants globals statements;
 
-statements ::= if_statement|while_statement|
-                for_statement|assignment|fun_call|
-                read|write|/*epsilon*/;
+statements ::= if_statement statements |while_statement statements|
+                for_statement statements|assignment statements | fun_call statements|
+                read |write |/*epsilon*/;
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS {:
                                                             //RESULT = new ErrorExprListNode( "ExprListError ..." ); 
                                                             :};
 
-cond ::= IDENTIFIER | OPEN_PARENTHESIS cond CLOSE_PARENTHESIS | 
-        TRUE | FALSE 
-         |fun_call; 
 
-/*cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2| 
-        TRUE cond2| FALSE cond2
+cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2| 
+        TRUE cond2| FALSE cond2 | literal cond2
          |fun_call cond2; 
 
-cond2 ::= BOOLEAN_OPERATOR cond cond2;*/
+cond2 ::= BOOLEAN_OPERATOR cond | /*epsilon*/ ;
          
 
 else_statement ::= ELSE statements | /*epsilon*/; 
 
-while_statement ::= WHILE cond DO BEGIN statements END;
+while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS DO BEGIN statements END;
 
 for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END;
 
-exp ::= IDENTIFIER exp2| OPEN_PARENTHESIS exp CLOSE_PARENTHESIS exp2| TRUE exp2| FALSE exp2|  
-        FLOATING_POINT_NUMERIC_LITERAL exp2| 
-        INTEGER_NUMERIC_LITERAL exp2| SCIENTIFIC_NOTATION_NUMERIC_LITERAL exp2| 
-        STRING_LITERAL exp2| NUMERIC_CHAR_LITERAL exp2| 
-        CHAR_LITERAL exp2| fun_call exp2| MINUSOP exp exp2;
+literal ::= FLOATING_POINT_NUMERIC_LITERAL | 
+        INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | 
+        STRING_LITERAL | NUMERIC_CHAR_LITERAL | CHAR_LITERAL;
 
-exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2;
+/*exp ::= IDENTIFIER | OPEN_PARENTHESIS exp CLOSE_PARENTHESIS | TRUE | FALSE |  
+          | literal | fun_def | fun_call | MINUSOP exp;*/
 
-assignment ::= IDENTIFIER EQUAL exp;
+exp ::= exp1 exp2;
 
-fun_call ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS statements|IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS;
+exp1 ::= IDENTIFIER | ARITHMETICOP IDENTIFIER | 
+        OPEN_PARENTHESIS exp CLOSE_PARENTHESIS | TRUE | FALSE |  
+        FLOATING_POINT_NUMERIC_LITERAL | 
+        INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | 
+        STRING_LITERAL | NUMERIC_CHAR_LITERAL | 
+        CHAR_LITERAL | fun_call | MINUSOP exp;
 
-read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS statements|READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
+exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2 | 
+           EQUAL exp exp2 | MINUSOP exp exp2 | /*e*/ ;
+
+assignment ::= IDENTIFIER COLON EQUAL exp SEMI;
+
+fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS  
+        | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS ;
+
+parameter_list_call ::= /*epsilon*/ | COMMA exp parameter_list ;
+
+
+read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS statements
+        |READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
 write ::= WRITE OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS;
 
