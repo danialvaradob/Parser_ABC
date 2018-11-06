@@ -31,7 +31,7 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\141\000\002\002\012\000\002\002\004\000\002\002" +
+    "\000\141\000\002\002\004\000\002\002\012\000\002\002" +
     "\012\000\002\002\011\000\002\002\011\000\002\002\010" +
     "\000\002\002\012\000\002\003\004\000\002\004\007\000" +
     "\002\004\007\000\002\004\007\000\002\004\007\000\002" +
@@ -283,7 +283,7 @@ public class parser extends java_cup.runtime.lr_parser {
     "\002\000\004\034\326\001\002\000\004\002\ufffe\001\002" +
     "\000\004\025\330\001\002\000\020\004\040\034\uffce\036" +
     "\051\040\041\045\033\056\036\057\042\001\002\000\004" +
-    "\034\332\001\002\000\004\002\001\001\002\000\010\025" +
+    "\034\332\001\002\000\004\002\000\001\002\000\010\025" +
     "\uffe4\037\016\044\012\001\002\000\004\017\335\001\002" +
     "\000\012\020\337\030\026\041\027\050\023\001\002\000" +
     "\004\004\343\001\002\000\004\025\340\001\002\000\024" +
@@ -351,7 +351,7 @@ public class parser extends java_cup.runtime.lr_parser {
     "\uffe4\037\016\044\012\001\002\000\004\025\u0115\001\002" +
     "\000\020\004\040\034\uffce\036\051\040\041\045\033\056" +
     "\036\057\042\001\002\000\004\034\u0117\001\002\000\004" +
-    "\002\ufffb\001\002\000\004\002\000\001\002" });
+    "\002\ufffb\001\002\000\004\002\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -530,7 +530,7 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Indicates start state. */
   public int start_state() {return 0;}
   /** Indicates start production. */
-  public int start_production() {return 1;}
+  public int start_production() {return 0;}
 
   /** <code>EOF</code> Symbol index. */
   public int EOF_sym() {return 0;}
@@ -562,6 +562,14 @@ public class parser extends java_cup.runtime.lr_parser {
         report_error(message, info);
         System.exit(1);
     }
+
+    /* Cuando se encuentra un error de sintaxis
+
+    */
+    public void syntax_error(Symbol s){
+    System.out.println("compiler has detected a syntax error at line " + s.left 
+        + " column " + s.right);
+}
 
     /* Metodo main para garantizar la ejecucion del analizador
        lexico y sintactico, ademas que se pase como parametro la tabla
@@ -605,16 +613,7 @@ class CUP$parser$actions {
       switch (CUP$parser$act_num)
         {
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 0: // program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
-            {
-              Object RESULT =null;
-
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            }
-          return CUP$parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // $START ::= program EOF 
+          case 0: // $START ::= program EOF 
             {
               Object RESULT =null;
 		int start_valleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
@@ -625,6 +624,15 @@ class CUP$parser$actions {
             }
           /* ACCEPT */
           CUP$parser$parser.done_parsing();
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 1: // program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
+            {
+              Object RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
@@ -668,7 +676,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		
-                                                                parser.report_error("Error, palabra reservada program no encontrada", null); 
+                                                                parser.report_error("Error, palabra reservada program no encontrada", RESULT); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -750,7 +758,7 @@ class CUP$parser$actions {
           case 15: // constants_body ::= IDENTIFIER EQUAL error SEMI 
             {
               Object RESULT =null;
-		 parser.report_error("Error al declarar una constante", null);
+		 parser.report_error("Error al declarar una constante", RESULT);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("constants_body",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -795,7 +803,7 @@ class CUP$parser$actions {
           case 20: // globals_body ::= IDENTIFIER globals_list COLON error SEMI globals_body 
             {
               Object RESULT =null;
-		 parser.report_error("Tipo no existe", null); 
+		 parser.report_error("Tipo no existe", RESULT); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("globals_body",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -868,7 +876,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		
-                                                               parser.report_error("Error al declarar la funcion", null); 
+                                                               parser.report_error("Error al declarar la funcion", RESULT); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("functions",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -909,7 +917,7 @@ class CUP$parser$actions {
 		int Typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object Type = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		
-                                                               parser.report_error("Error en los argumentos de la funcion", null); 
+                                                               parser.report_error("Error en los argumentos de la funcion", RESULT); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("function_header",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -923,7 +931,7 @@ class CUP$parser$actions {
 		int Typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object Type = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		
-                     parser.report_error("Error en el cuerpo de la funcion", null); 
+                     parser.report_error("Error en el cuerpo de la funcion", RESULT); 
                      
               CUP$parser$result = parser.getSymbolFactory().newSymbol("function_header",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -961,7 +969,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		 
-                                                      parser.report_error("No especificado el tipo de un parametro", null); 
+                                                      parser.report_error("No especificado el tipo de un parametro", RESULT); 
                                                       
               CUP$parser$result = parser.getSymbolFactory().newSymbol("parameter_list",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1107,7 +1115,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		
-                                                               parser.report_error("Error en la condicion", null); 
+                                                               parser.report_error("Error en la condicion", RESULT); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1217,7 +1225,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		
-                                                               parser.report_error("Error en la condicion", null); 
+                                                               parser.report_error("Error en la condicion", RESULT); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("while_statement",16, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1239,7 +1247,7 @@ class CUP$parser$actions {
           case 67: // for_statement ::= FOR error TO exp DO BEGIN statements END 
             {
               Object RESULT =null;
-		 parser.report_error("Debe de asignar un valor", null); 
+		 parser.report_error("Debe de asignar un valor", RESULT); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("for_statement",17, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1474,7 +1482,7 @@ class CUP$parser$actions {
             {
               Object RESULT =null;
 		
-                                                               parser.report_error("Error en la asignacion", null); 
+                                                               parser.report_error("Error en la asignacion", RESULT); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assignment",19, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
