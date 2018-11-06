@@ -118,12 +118,12 @@ non terminal program,constants,constants_body,
 
 precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
 
+start with program;
 
-
-program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
-            | error  IDENTIFIER constants globals functions BEGIN statements END{:
+program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END ;
+            /*| error  IDENTIFIER constants globals functions BEGIN statements END{:
                                                                 parser.report_error("Error, palabra reservada program no encontrada", null); 
-                                                               :};
+                                                               :};*/
 
 constants ::= | CONST constants_body;
 
@@ -140,7 +140,7 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
 globals ::= | VAR globals_body ;
 
 
-globals_body ::= IDENTIFIER globals_list COLON Type SEMI globals_body | 
+globals_body ::= /*epsilon*/ | IDENTIFIER globals_list COLON Type SEMI globals_body | 
                  IDENTIFIER globals_list COLON error SEMI globals_body {: parser.report_error("Tipo no existe", null); :};
 
 
@@ -154,7 +154,8 @@ functions ::= FUNCTION function_header functions| PROCEDURE procedure_header fun
                                                                :}  |/*epsilon*/;
 
 
-function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
+function_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS COLON Type BEGIN function_body END |
+                    IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS COLON Type BEGIN function_body END 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
                                                                parser.report_error("Error en los argumentos de la funcion", null); 
                                                                :}
@@ -173,12 +174,12 @@ parameter_list ::= COMMA Type IDENTIFIER parameter_list |
                 |/*epsilon*/;
 
 
-function_body ::= constants globals statements assignment;
+function_body ::= constants globals statements;// assignment;
 
 
 statements ::= if_statement statements |while_statement statements|
                 for_statement statements|assignment statements | fun_call statements|
-                read |write | ;
+                read statements |write statements| ;
 
 
 
@@ -226,31 +227,27 @@ exp ::= exp1 exp2;
 
 exp1 ::= IDENTIFIER | ARITHMETICOP IDENTIFIER | 
         OPEN_PARENTHESIS exp CLOSE_PARENTHESIS | TRUE | FALSE |  
-        FLOATING_POINT_NUMERIC_LITERAL | 
-        INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | 
-        STRING_LITERAL | NUMERIC_CHAR_LITERAL | 
-        CHAR_LITERAL | fun_call | MINUSOP exp;
+        literal | fun_call | MINUSOP exp;
 
 exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2 | 
            EQUAL exp exp2 | MINUSOP exp exp2 | /*e*/ ;
 
-assignment ::= IDENTIFIER COLON EQUAL exp SEMI;
 
 fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS  
-        | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS ;
+        | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS SEMI;
 
 parameter_list_call ::= /*epsilon*/ | COMMA exp parameter_list ;
 
-assignment ::= IDENTIFIER COLON EQUAL exp | IDENTIFIER COLON EQUAL error SEMI {:
+assignment ::= IDENTIFIER COLON EQUAL exp SEMI | IDENTIFIER COLON EQUAL error SEMI {:
                                                                parser.report_error("Error en la asignacion", null); 
                                                                :};
 
 
 
-read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS statements
+read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS
         |READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
-write ::= WRITE OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS;
+write ::= WRITE OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS SEMI;
 
 
 

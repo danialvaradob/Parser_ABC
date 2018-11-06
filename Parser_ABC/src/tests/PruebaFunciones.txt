@@ -18,17 +18,17 @@ END
 
 
 
-FUNCTION funcionBuena(int x)
+FUNCTION funcionBuena(int x):int
 BEGIN
- funcionBuena(1); //llamada correcta a una funcion
+ funcionBuena(x=3); //llamada correcta a una funcion
  funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
 
- funcion(4;   //llamada incorrecta
+ funcion(4);   //llamada incorrecta
  funcionBuena:=0;
 END
 
 
-FUNCTION funcion8 // error no tiene los parentesis de los parametros
+FUNCTION funcion8():string // error no tiene los parentesis de los parametros
 BEGIN
  funcion5:=0; 
 END
