@@ -122,7 +122,7 @@ precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
 
 program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
             | error  IDENTIFIER constants globals functions BEGIN statements END{:
-                                                               : parser.report_error("Error, palabra reservada program no encontrada", null); 
+                                                                parser.report_error("Error, palabra reservada program no encontrada", null); 
                                                                :};
 
 constants ::= | CONST constants_body;
@@ -150,17 +150,17 @@ Type ::= INT|CHAR|STRING;
 
 
 functions ::= FUNCTION function_header functions| PROCEDURE procedure_header functions | FUNCTION error END {:
-                                                               : parser.report_error("Error al declarar la funcion", null); 
+                                                               parser.report_error("Error al declarar la funcion", null); 
                                                                :}  |/*epsilon*/;
 
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
-                                                               : parser.report_error("Error en los argumentos de la funcion", null); 
+                                                               parser.report_error("Error en los argumentos de la funcion", null); 
                                                                :}
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN error END 
                    {:
-                     : parser.report_error("Error en el cuerpo de la funcion", null); 
+                     parser.report_error("Error en el cuerpo de la funcion", null); 
                      :};
 
 
@@ -168,7 +168,7 @@ procedure_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list 
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | 
                 COMMA error IDENTIFIER parameter_list{: 
-                                                      : parser.report_error("No especificado el tipo de un parametro", null); 
+                                                      parser.report_error("No especificado el tipo de un parametro", null); 
                                                       :}
                 |/*epsilon*/;
 
@@ -192,7 +192,7 @@ statements ::= if_statement statements |while_statement statements|
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS THEN statements else_statement END {:
-                                                               : parser.report_error("Error en la condicion", null); 
+                                                               parser.report_error("Error en la condicion", null); 
                                                                :};
                                                             
 
@@ -208,7 +208,7 @@ else_statement ::= ELSE statements | /*epsilon*/;
 
 
 while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS  DO BEGIN statements END | WHILE error DO BEGIN statements END{:
-                                                               : parser.report_error("Error en la condicion", null); 
+                                                               parser.report_error("Error en la condicion", null); 
                                                                :};
 
 
@@ -242,7 +242,7 @@ fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHES
 parameter_list_call ::= /*epsilon*/ | COMMA exp parameter_list ;
 
 assignment ::= IDENTIFIER COLON EQUAL exp | IDENTIFIER COLON EQUAL error SEMI {:
-                                                               : parser.report_error("Error en la asignacion", null); 
+                                                               parser.report_error("Error en la asignacion", null); 
                                                                :};
 
 
