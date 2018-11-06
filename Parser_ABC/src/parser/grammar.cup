@@ -111,15 +111,23 @@ non terminal program,constants,constants_body,
             statements,if_statement,cond,
             else_statement,while_statement,
             for_statement,exp,assignment,
+<<<<<<< HEAD
             fun_call,//fun_def,
             read,write,
             exp1,exp2,cond2, literal, procedure_header;
 
 precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
+=======
+            fun_call,read,write,
+            exp2,cond2,statement;
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
 
 
 
-program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END;
+program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END 
+            | error  IDENTIFIER constants globals functions BEGIN statements END{:
+                                                               : parser.report_error("Error, palabra reservada program no encontrada", null); 
+                                                               :};
 
 constants ::= | CONST constants_body;
 
@@ -130,37 +138,76 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
                     IDENTIFIER EQUAL FLOATING_POINT_NUMERIC_LITERAL SEMI constants_body | 
                    IDENTIFIER EQUAL NUMERIC_CHAR_LITERAL SEMI constants_body |
                    IDENTIFIER EQUAL SCIENTIFIC_NOTATION_NUMERIC_LITERAL SEMI constants_body 
-                    |/*epsilon*/;
+                    |  IDENTIFIER EQUAL error SEMI {: parser.report_error("Error al declarar una constante", null);:}
+                    | /*epsilon*/;
 
 globals ::= | VAR globals_body ;
 
+<<<<<<< HEAD
 globals_body ::= IDENTIFIER globals_list COLON Type SEMI globals_body;
+=======
+globals_body ::= IDENTIFIER globals_list COLON Type SEMI | 
+                 IDENTIFIER globals_list COLON error SEMI {: parser.report_error("Tipo no existe", null); :};
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
 
 globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
 
 Type ::= INT|CHAR|STRING;
 
+<<<<<<< HEAD
 functions ::= FUNCTION function_header functions | PROCEDURE procedure_header functions 
               | /*epsilon*/;
+=======
+functions ::= FUNCTION function_header | PROCEDURE function_header | FUNCTION error END {:
+                                                               : parser.report_error("Error al declarar la funcion", null); 
+                                                               :}  |/*epsilon*/;
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
 
-function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END;
+function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN function_body END 
+                   | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
+                                                               : parser.report_error("Error en los argumentos de la funcion", null); 
+                                                               :}
+                   | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN error END 
+                   {:
+                     : parser.report_error("Error en el cuerpo de la funcion", null); 
+                     :};
 
+<<<<<<< HEAD
 //procedures ::= PROCEDURE function_header | PROCEDURE function_header | /*epsilon*/;
 
 procedure_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS BEGIN function_body END;
 
 parameter_list ::= /*epsilon*/ | COMMA Type IDENTIFIER parameter_list ;
+=======
+parameter_list ::= COMMA Type IDENTIFIER parameter_list | 
+                COMMA error IDENTIFIER parameter_list{: 
+                                                      : parser.report_error("No especificado el tipo de un parametro", null); 
+                                                      :}
+                |/*epsilon*/;
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
 
-function_body ::= constants globals statements;
+function_body ::= constants globals statements assignment;
 
+<<<<<<< HEAD
 statements ::= if_statement statements |while_statement statements|
                 for_statement statements|assignment statements | fun_call statements|
                 read |write |/*epsilon*/;
+=======
+
+
+statements ::= statement SEMI statements | /*epsilon*/;
+
+statement ::= if_statement|while_statement|
+                for_statement|assignment|fun_call|
+                read|write|/*epsilon*/;
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
+
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
-                | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS {:
-                                                            //RESULT = new ErrorExprListNode( "ExprListError ..." ); 
-                                                            :};
+                | IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS THEN statements else_statement END {:
+                                                               : parser.report_error("Error en la condicion", null); 
+                                                               :};
+                                                            
 
 
 cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2| 
@@ -172,9 +219,16 @@ cond2 ::= BOOLEAN_OPERATOR cond | /*epsilon*/ ;
 
 else_statement ::= ELSE statements | /*epsilon*/; 
 
+<<<<<<< HEAD
 while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS DO BEGIN statements END;
+=======
+while_statement ::= WHILE cond DO BEGIN statements END | WHILE error DO BEGIN statements END{:
+                                                               : parser.report_error("Error en la condicion", null); 
+                                                               :};
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
 
-for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END;
+for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END | 
+                  FOR error TO exp DO BEGIN statements END {: parser.report_error("Debe de asignar un valor", null); :};
 
 literal ::= FLOATING_POINT_NUMERIC_LITERAL | 
         INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | 
@@ -200,7 +254,13 @@ assignment ::= IDENTIFIER COLON EQUAL exp SEMI;
 fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS  
         | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS ;
 
+<<<<<<< HEAD
 parameter_list_call ::= /*epsilon*/ | COMMA exp parameter_list ;
+=======
+assignment ::= IDENTIFIER COLON EQUAL exp | IDENTIFIER COLON EQUAL error SEMI {:
+                                                               : parser.report_error("Error en la asignacion", null); 
+                                                               :};
+>>>>>>> 1d48081a31a10033bd5b854c0d67742e33f3176d
 
 
 read ::= READ OPEN_PARENTHESIS Type IDENTIFIER CLOSE_PARENTHESIS statements
