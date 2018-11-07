@@ -28,13 +28,6 @@ parser code {:
         System.exit(1);
     }
 
-    /* Cuando se encuentra un error de sintaxis
-
-    */
-    public void syntax_error(Symbol s){
-    System.out.println("compiler has detected a syntax error at line " + s.left 
-        + " column " + s.right);
-}
 
     /* Metodo main para garantizar la ejecucion del analizador
        lexico y sintactico, ademas que se pase como parametro la tabla
@@ -122,7 +115,7 @@ non terminal program,constants,constants_body,
             fun_call,//fun_def,
             read,write,
             exp1,exp2,cond2, literal, 
-            procedure_header,statement,;
+            procedure_header,statement;
 
 precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
 

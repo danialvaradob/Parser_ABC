@@ -563,13 +563,6 @@ public class parser extends java_cup.runtime.lr_parser {
         System.exit(1);
     }
 
-    /* Cuando se encuentra un error de sintaxis
-
-    */
-    public void syntax_error(Symbol s){
-    System.out.println("compiler has detected a syntax error at line " + s.left 
-        + " column " + s.right);
-}
 
     /* Metodo main para garantizar la ejecucion del analizador
        lexico y sintactico, ademas que se pase como parametro la tabla
