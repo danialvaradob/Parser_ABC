@@ -243,11 +243,13 @@ exp1 ::= IDENTIFIER | ARITHMETICOP IDENTIFIER |
         literal | fun_call | MINUSOP exp;
 
 exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2 | 
-           EQUAL exp exp2 | MINUSOP exp exp2 | /*e*/ ;
+           EQUAL exp exp2 | MINUSOP exp exp2 | /*epsilon*/ ;
 
 
-fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS  
-        | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS SEMI;
+fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS SEMI
+        | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS SEMI 
+        | IDENTIFIER OPEN_PARENTHESIS error CLOSE_PARENTHESIS SEMI{: parser.report_error("Error en los parametros al llamar la funcion", RESULT); :};
+
 
 parameter_list_call ::= /*epsilon*/ | COMMA exp parameter_list ;
 
