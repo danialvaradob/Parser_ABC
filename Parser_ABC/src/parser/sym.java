@@ -32,6 +32,7 @@ public class sym {
   public static final int BEGIN = 19;
   public static final int UNTIL = 42;
   public static final int IF = 30;
+  public static final int ID = 59;
   public static final int NUMERIC_CHAR_LITERAL = 12;
   public static final int OF = 33;
   public static final int EOF = 0;
@@ -126,7 +127,8 @@ public class sym {
   "ERROR_INTEGER",
   "ERROR_STRING",
   "ERROR_INVALID_CHARACTER",
-  "ERROR_INVALID_LENGTH"
+  "ERROR_INVALID_LENGTH",
+  "ID"
   };
 }
 

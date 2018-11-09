@@ -1,5 +1,6 @@
 package parser;
 import java_cup.runtime.*;
+import java_cup.runtime.Symbol;
 
    
 /* Codigo del parser, se copia integramente a la clase final.
@@ -9,12 +10,13 @@ parser code {:
     public void report_error(String message, Object info) {
         StringBuilder m = new StringBuilder("Error");
         if (info instanceof java_cup.runtime.Symbol) {
-            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+            java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);            
             if (s.left >= 0) {                
                 m.append(" in line "+(s.left+1));
                 if (s.right >= 0)
                     m.append(", column "+(s.right+1));
             }
+            m.append("\n" + "Token: " + s.value);
         }
         m.append(" : "+message);
         System.err.println(m);
@@ -39,11 +41,6 @@ parser code {:
             ex.printStackTrace();
         }
     }
-
-
-
-
-
 :};
 
 
@@ -103,6 +100,7 @@ terminal IDENTIFIER,
     ERROR_INVALID_CHARACTER,
     ERROR_INVALID_LENGTH;
 
+terminal String ID;
 
 non terminal program,constants,constants_body,
             globals, globals_body, globals_list,
@@ -115,23 +113,25 @@ non terminal program,constants,constants_body,
             fun_call,//fun_def,
             read,write,
             exp1,exp2,cond2, literal, 
-            procedure_header,statement;
+            procedure_header,statement,
+            recovery;
 
 precedence left ARITHMETICOP, BOOLEAN_OPERATOR, EQUAL, MINUSOP,IDENTIFIER;
 
 
-start with program;
+//start with program;
 program ::= PROGRAM IDENTIFIER constants globals functions BEGIN statements END
            | PROGRAM IDENTIFIER globals constants functions BEGIN statements END
            | PROGRAM IDENTIFIER constants functions BEGIN statements END
            | PROGRAM IDENTIFIER globals functions BEGIN statements END
            | PROGRAM IDENTIFIER functions BEGIN statements END
-            | error  IDENTIFIER constants globals functions BEGIN statements END{:
-                                                                parser.report_error("Error, palabra reservada program no encontrada", RESULT); 
-                                                               :};
+           | error:e {:
+                parser.report_error("Error, palabra reservada PROGRAM no encontrada", RESULT); 
+           :} ;
 
 
 
+//recovery :: END;
 
 constants ::= CONST constants_body;
 
@@ -163,20 +163,20 @@ Type ::= INT|CHAR|STRING;
 functions ::= FUNCTION function_header functions| PROCEDURE procedure_header functions | FUNCTION error END {:
                                                                parser.report_error("Error al declarar la funcion", RESULT); 
                                                                :}  |/*epsilon*/ 
-                                                               | PROCEDURE error END {:
+                                                               | PROCEDURE error {:
                                                                parser.report_error("Error al declarar procedimiento", RESULT); 
-                                                               :};
+                                                               :} END;
 
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS COLON Type BEGIN function_body END |
                     IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS COLON Type BEGIN function_body END 
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS :Type BEGIN function_body END{:
-                                                               parser.report_error("Error en los argumentos de la funcion", RESULT); 
-                                                               :}
+                        parser.report_error("Error en los argumentos de la funcion", RESULT); 
+                   :}
                    | IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER parameter_list CLOSE_PARENTHESIS :Type BEGIN error END 
                    {:
-                     parser.report_error("Error en el cuerpo de la funcion", RESULT); 
-                     :};
+                        parser.report_error("Error en el cuerpo de la funcion", RESULT); 
+                    :};
 
 
 procedure_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS BEGIN function_body END |
@@ -184,9 +184,9 @@ procedure_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS BEGIN functio
 
 parameter_list ::= COMMA Type IDENTIFIER parameter_list | 
                 COMMA error IDENTIFIER parameter_list{: 
-                                                      parser.report_error("No especificado el tipo de un parametro", RESULT); 
-                                                      :}
-                |/*epsilon*/;
+                    parser.report_error("No especificado el tipo de un parametro", RESULT); 
+                :}
+                | /*epsilon*/;
 
 
 function_body ::= constants globals statements 
@@ -277,6 +277,8 @@ read ::= READ OPEN_PARENTHESIS IDENTIFIER CLOSE_PARENTHESIS SEMI
         |READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
 
 write ::= WRITE OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS SEMI;
+
+
 
 
 

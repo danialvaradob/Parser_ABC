@@ -1,17 +1,17 @@
 //Se desea probar tanto la declaracion como el llamado de funciones
 
 
-PROGRAM Prueba
+PROGRA Prueba
 
 // se definen funciones con errores
 
-PROCEDURE funcion1( int x, int y) // parametros de forma incorrecta
+PROCEDURE funcion1 (int x, int y) // parametros de forma incorrecta
 BEGIN
  funcion1:=0;
 END
 
 
-PROCEDURE funcion3( int x, int y)  //no definio los identificadores
+PROCEDURE funcion3 (int x, int y)  //no definio los identificadores
 BEGIN
  funcion3:=0;
 END

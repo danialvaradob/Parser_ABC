@@ -57,7 +57,7 @@ public class Scanner {
             //printScannedTokens(analizadorJFlex); 
             
             Object result = p.parse().value; 
-            Object result2 = p.debug_parse();
+            //Object result2 = p.debug_parse();
             
             System.out.println("  \n \n \n \n");
             
