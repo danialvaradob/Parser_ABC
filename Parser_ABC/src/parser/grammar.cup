@@ -148,8 +148,11 @@ constants_body ::= IDENTIFIER EQUAL LITERAL SEMI constants_body |
 globals ::= VAR globals_body ;
 
 
-globals_body ::= /*epsilon*/ | IDENTIFIER globals_list COLON Type SEMI globals_body | 
-                 IDENTIFIER globals_list COLON error SEMI globals_body {: parser.report_error("Tipo no existe", RESULT); :};
+globals_body ::= /*epsilon*/ | IDENTIFIER globals_list COLON Type SEMI globals_body  
+                 |  IDENTIFIER globals_list COLON error SEMI globals_body {: parser.report_error("Tipo no existe", RESULT); :} 
+                 |  IDENTIFIER error COLON Type SEMI globals_body {: 
+                                                                    parser.report_error("Error en VAR", RESULT); 
+                                                                    :};
 
 
 globals_list ::= COMMA IDENTIFIER globals_list | /*epsilon*/;
@@ -159,7 +162,10 @@ Type ::= INT|CHAR|STRING;
 
 functions ::= FUNCTION function_header functions| PROCEDURE procedure_header functions | FUNCTION error END {:
                                                                parser.report_error("Error al declarar la funcion", RESULT); 
-                                                               :}  |/*epsilon*/;
+                                                               :}  |/*epsilon*/ 
+                                                               | PROCEDURE error END {:
+                                                               parser.report_error("Error al declarar procedimiento", RESULT); 
+                                                               :};
 
 
 function_header ::= IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS COLON Type BEGIN function_body END |
@@ -221,9 +227,17 @@ cond2 ::= BOOLEAN_OPERATOR cond | /*epsilon*/ ;
 else_statement ::= ELSE statements | /*epsilon*/; 
 
 
-while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS  DO BEGIN statements END | WHILE error DO BEGIN statements END{:
-                                                               parser.report_error("Error en la condicion", RESULT); 
-                                                               :};
+while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS  DO BEGIN statements END 
+                    | WHILE error DO BEGIN statements END{:
+                                                           parser.report_error("Error en la condicion", RESULT); 
+                                                         :}
+                    | WHILE OPEN_PARENTHESIS error CLOSE_PARENTHESIS DO BEGIN statements END{:
+                                                           parser.report_error("Error en la condicion", RESULT); 
+                                                         :}
+                    | WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS DO BEGIN error END{:
+                                                           parser.report_error("Error en statements", RESULT); 
+                                                         :} 
+                                                         ;
 
 
 for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END | 
