@@ -82,7 +82,7 @@ public class ScannerABC implements java_cup.runtime.Scanner {
     "\1\0\3\4\2\56\1\21\2\0\1\47\1\0\1\23"+
     "\1\0\1\23\1\0\1\4\1\57\1\4\1\21\1\0"+
     "\2\47\2\0\1\23\2\37\1\4\1\21\2\0\1\60"+
-    "\5\0\1\23\1\0\1\24";
+    "\5\0\1\23\1\0\1\61";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[282];
@@ -1189,314 +1189,322 @@ private Symbol symbol(String value, int type, int line) {
           case 1: 
             { //Espacios y tabuladores
             }
-          case 49: break;
+          case 50: break;
           case 2: 
             { Symbol t = new Symbol(sym.ERROR_INVALID_CHARACTER, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Caracter invalido ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
             }
-          case 50: break;
+          case 51: break;
           case 3: 
             { /*Token t = new Token("Enter", Types.IDENTIFIER);
  this._existenTokens = true;
  return t;*/
             }
-          case 51: break;
+          case 52: break;
           case 4: 
             { Symbol t = new Symbol(sym.IDENTIFIER, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.IDENTIFIER, yyline);
     if (yytext().length()>127){
         t = new Symbol(sym.ERROR_INVALID_LENGTH, yyline, yycolumn, (Object)yytext());
-        //t.setType(Types.ERROR_INVALID_LENGTH);
+        System.err.println("Lexical error in line " + yyline + ": " + "Longitud invalida ( " + (Object)yytext() + " )" );
     }
      this._existenTokens = true;
      return t;
             }
-          case 52: break;
+          case 53: break;
           case 5: 
             { Symbol t = new Symbol(sym.INTEGER_NUMERIC_LITERAL, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.INTEGER_NUMERIC_LITERAL, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 53: break;
+          case 54: break;
           case 6: 
             { Symbol t = new Symbol(sym.OPERATOR, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.OPERATOR, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 54: break;
+          case 55: break;
           case 7: 
             { Symbol t = new Symbol(sym.MINUSOP, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.ARITHMETICOP, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 55: break;
+          case 56: break;
           case 8: 
             { Symbol t = new Symbol(sym.BOOLEAN_OPERATOR, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.BOOLEAN_OPERATOR, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 56: break;
+          case 57: break;
           case 9: 
             { Symbol t = new Symbol(sym.EQUAL, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 57: break;
+          case 58: break;
           case 10: 
             { Symbol t = new Symbol(sym.OPEN_PARENTHESIS, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.OPEN_PARENTHESIS, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 58: break;
+          case 59: break;
           case 11: 
             { Symbol t = new Symbol(sym.ARITHMETICOP, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.ARITHMETICOP, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 59: break;
+          case 60: break;
           case 12: 
             { Symbol t = new Symbol(sym.CLOSE_PARENTHESIS, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.CLOSE_PARENTHESIS, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 60: break;
+          case 61: break;
           case 13: 
             { Symbol t = new Symbol(sym.ERROR_COMMENT, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.ERROR_COMMENT, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error de comentario. Revise si faltan caracteres de cierre");
     this._existenTokens = true;
     return t;
     //return symbol(sym.ERROR_COMMENT);
             }
-          case 61: break;
+          case 62: break;
           case 14: 
             { Symbol t = new Symbol(sym.COMMA, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 62: break;
+          case 63: break;
           case 15: 
             { Symbol t = new Symbol(sym.SEMI, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 63: break;
+          case 64: break;
           case 16: 
             { Symbol t = new Symbol(sym.COLON, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 64: break;
+          case 65: break;
           case 17: 
             { //Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
     Symbol t = new Symbol(sym.ERROR_INVALID_CHARACTER, yyline, yycolumn, (Object)yytext());
+    System.err.println("Lexical error in line " + yyline + ": " + "Caracter invalido ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     //return new Symbol(sym.ERROR_INVALID_CHARACTER);
     return t;
             }
-          case 65: break;
+          case 66: break;
           case 18: 
             { Symbol t = new Symbol(sym.ERROR_STRING, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_STRING, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error de string ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
             }
-          case 66: break;
+          case 67: break;
           case 19: 
             { Symbol t = new Symbol(sym.ERROR_IDENTIFIER, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_IDENTIFIER, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Identificador erroneo ( " + (Object)yytext() + " )");
     this._existenTokens = true;
     //return symbol(sym.ERROR_IDENTIFIER);
     return t;
             }
-          case 67: break;
+          case 68: break;
           case 20: 
             { Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error en float ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
             }
-          case 68: break;
+          case 69: break;
           case 21: 
             { Symbol t = new Symbol(sym.DO, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 69: break;
+          case 70: break;
           case 22: 
             { Symbol t = new Symbol(sym.OF, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 70: break;
+          case 71: break;
           case 23: 
             { Symbol t = new Symbol(sym.TO, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 71: break;
+          case 72: break;
           case 24: 
             { // Comentario de bloque 1
             }
-          case 72: break;
+          case 73: break;
           case 25: 
             { Symbol t = new Symbol(sym.RESERVED, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.RESERVED, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 73: break;
+          case 74: break;
           case 26: 
             { Symbol t = new Symbol(sym.IF, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 74: break;
+          case 75: break;
           case 27: 
             { Symbol t = new Symbol(sym.NUMERIC_CHAR_LITERAL, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.NUMERIC_CHAR_LITERAL, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 75: break;
+          case 76: break;
           case 28: 
             { Symbol t = new Symbol(sym.STRING_LITERAL, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.STRING_LITERAL, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 76: break;
+          case 77: break;
           case 29: 
             { Symbol t = new Symbol(sym.IDENTIFIER, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.FLOATING_POINT_NUMERIC_LITERAL, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 77: break;
+          case 78: break;
           case 30: 
             { Symbol t = new Symbol(sym.END, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 78: break;
+          case 79: break;
           case 31: 
             { Symbol t = new Symbol(sym.FUNCTION, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 79: break;
+          case 80: break;
           case 32: 
             { Symbol t = new Symbol(sym.INT, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 80: break;
+          case 81: break;
           case 33: 
             { Symbol t = new Symbol(sym.VAR, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 81: break;
+          case 82: break;
           case 34: 
             { Symbol t = new Symbol(sym.CHAR_LITERAL, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.CHAR_LITERAL, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 82: break;
+          case 83: break;
           case 35: 
             { Symbol t = new Symbol(sym.ELSE, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 83: break;
+          case 84: break;
           case 36: 
             { Symbol t = new Symbol(sym.READ, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 84: break;
+          case 85: break;
           case 37: 
             { Symbol t = new Symbol(sym.TRUE, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 85: break;
+          case 86: break;
           case 38: 
             { Symbol t = new Symbol(sym.THEN, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 86: break;
+          case 87: break;
           case 39: 
             { Symbol t = new Symbol(sym.SCIENTIFIC_NOTATION_NUMERIC_LITERAL, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.SCIENTIFIC_NOTATION_NUMERIC_LITERAL, yyline);
     this._existenTokens = true;
     return t;
             }
-          case 87: break;
+          case 88: break;
           case 40: 
             { Symbol t = new Symbol(sym.BEGIN, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 88: break;
+          case 89: break;
           case 41: 
             { Symbol t = new Symbol(sym.WRITE, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 89: break;
+          case 90: break;
           case 42: 
             { Symbol t = new Symbol(sym.WHILE, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 90: break;
+          case 91: break;
           case 43: 
             { Symbol t = new Symbol(sym.FALSE, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 91: break;
+          case 92: break;
           case 44: 
             { Symbol t = new Symbol(sym.CONST, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 92: break;
+          case 93: break;
           case 45: 
             { Symbol t = new Symbol(sym.UNTIL, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 93: break;
+          case 94: break;
           case 46: 
             { Symbol t = new Symbol(sym.STRING, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 94: break;
+          case 95: break;
           case 47: 
             { Symbol t = new Symbol(sym.PROGRAM, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 95: break;
+          case 96: break;
           case 48: 
             { Symbol t = new Symbol(sym.PROCEDURE, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
             }
-          case 96: break;
+          case 97: break;
+          case 49: 
+            { Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
+    System.err.println("Lexical error in line " + yyline + ": " + "Notacion cientifica incorrecta ( " + (Object)yytext() + " )" );
+    this._existenTokens = true;
+    return t;
+            }
+          case 98: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

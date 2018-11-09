@@ -238,6 +238,7 @@ NoMatch         =       (.)
 {CommentError} {
     Symbol t = new Symbol(sym.ERROR_COMMENT, yyline, yycolumn, (Object)yytext());
     //Token t = new Token(yytext(), Types.ERROR_COMMENT, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error de comentario. Revise si faltan caracteres de cierre");
     this._existenTokens = true;
     return t;
     //return symbol(sym.ERROR_COMMENT);
@@ -246,6 +247,7 @@ NoMatch         =       (.)
 {InvalidCharacter} {
     //Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
     Symbol t = new Symbol(sym.ERROR_INVALID_CHARACTER, yyline, yycolumn, (Object)yytext());
+    System.err.println("Lexical error in line " + yyline + ": " + "Caracter invalido ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     //return new Symbol(sym.ERROR_INVALID_CHARACTER);
     return t; 
@@ -254,7 +256,7 @@ NoMatch         =       (.)
 
 {IdentifierError} {
     Symbol t = new Symbol(sym.ERROR_IDENTIFIER, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_IDENTIFIER, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Identificador erroneo ( " + (Object)yytext() + " )");
     this._existenTokens = true;
     //return symbol(sym.ERROR_IDENTIFIER);
     return t;
@@ -283,7 +285,7 @@ NoMatch         =       (.)
 
 {StringError} { 
     Symbol t = new Symbol(sym.ERROR_STRING, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_STRING, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error de string ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
 }
@@ -291,7 +293,6 @@ NoMatch         =       (.)
 
 {BooleanOp} {
     Symbol t = new Symbol(sym.BOOLEAN_OPERATOR, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.BOOLEAN_OPERATOR, yyline);
     this._existenTokens = true;
     return t;
 }
@@ -508,7 +509,7 @@ R_Int
 
 {ScienNotError} {
     Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Notacion cientifica incorrecta ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
 }
@@ -543,7 +544,7 @@ R_Int
     //Token t = new Token(yytext(), Types.IDENTIFIER, yyline);
     if (yytext().length()>127){
         t = new Symbol(sym.ERROR_INVALID_LENGTH, yyline, yycolumn, (Object)yytext());
-        //t.setType(Types.ERROR_INVALID_LENGTH);
+        System.err.println("Lexical error in line " + yyline + ": " + "Longitud invalida ( " + (Object)yytext() + " )" );
     }
      this._existenTokens = true;
      return t;
@@ -552,14 +553,14 @@ R_Int
 
 {FloatError1} {
     Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error en numero racional ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
 }
 
 {FloatError2} {
     Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_FLOATING_POINT, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Error en numero racional ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
 }
@@ -626,7 +627,7 @@ R_Int
 
 {NoMatch} {
     Symbol t = new Symbol(sym.ERROR_INVALID_CHARACTER, yyline, yycolumn, (Object)yytext());
-    //Token t = new Token(yytext(), Types.ERROR_INVALID_CHARACTER, yyline);
+    System.err.println("Lexical error in line " + yyline + ": " + "Caracter invalido ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
 }

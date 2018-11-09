@@ -31,8 +31,20 @@ public class Scanner {
                     Symbol token = analizadorJFlex.next_token();
                     if (!analizadorJFlex.existenTokens())
                     break;
-                    System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
+                    //System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
                     //Object result = p.parse().value; 
+            }
+        }catch(Exception e){}
+            
+    }
+    
+    private static void printLexicalErrors(ScannerABC analizadorJFlex){
+        try{
+            while(true){
+                    // Obtener el token analizado y mostrar su información
+                    Symbol token = analizadorJFlex.next_token();
+                    if (!analizadorJFlex.existenTokens())
+                    break;
             }
         }catch(Exception e){}
             
@@ -40,7 +52,7 @@ public class Scanner {
     public static void main(String [ ] args){
 
         try{
-            File file = new File("src/tests/PruebaFunciones.txt");
+            File file = new File("src/tests/PruebaExpresiones.txt");
 
             String path = file.getAbsolutePath();
            // Path p = Paths.get("prueba.txt");
@@ -55,11 +67,11 @@ public class Scanner {
             parser p = new parser(analizadorJFlex);
 
             //printScannedTokens(analizadorJFlex); 
-            
-            Object result = p.parse().value; 
+            printLexicalErrors(analizadorJFlex);
+            //Object result = p.parse().value; 
             //Object result2 = p.debug_parse();
             
-            System.out.println("  \n \n \n \n");
+            //System.out.println("  \n \n \n \n");
             
 //            table.printTable();
             
