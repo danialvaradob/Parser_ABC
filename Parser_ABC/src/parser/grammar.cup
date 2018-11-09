@@ -9,6 +9,7 @@ parser code {:
     /* Reporte de error encontrado. */
     public void report_error(String message, Object info) {
         StringBuilder m = new StringBuilder("Error");
+        m.append(" : "+message);
         if (info instanceof java_cup.runtime.Symbol) {
             java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);            
             if (s.left >= 0) {                
@@ -16,9 +17,9 @@ parser code {:
                 if (s.right >= 0)
                     m.append(", column "+(s.right+1));
             }
-            m.append("\n" + "Token: " + s.value);
+            //m.append("\n" + "Token: " + s.value);
         }
-        m.append(" : "+message);
+        
         System.err.println(m);
     }
    

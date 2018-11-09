@@ -558,6 +558,7 @@ public class parser extends java_cup.runtime.lr_parser {
     /* Reporte de error encontrado. */
     public void report_error(String message, Object info) {
         StringBuilder m = new StringBuilder("Error");
+        m.append(" : "+message);
         if (info instanceof java_cup.runtime.Symbol) {
             java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);            
             if (s.left >= 0) {                
@@ -565,9 +566,9 @@ public class parser extends java_cup.runtime.lr_parser {
                 if (s.right >= 0)
                     m.append(", column "+(s.right+1));
             }
-            m.append("\n" + "Token: " + s.value);
+            //m.append("\n" + "Token: " + s.value);
         }
-        m.append(" : "+message);
+        
         System.err.println(m);
     }
    
@@ -829,8 +830,8 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		 
-                                                                    parser.report_error("Error en VAR", e); 
-                                                                    
+                                  parser.report_error("Error en VAR", e); 
+                                   
               CUP$parser$result = parser.getSymbolFactory().newSymbol("globals_body",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
