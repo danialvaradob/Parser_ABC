@@ -1,7 +1,7 @@
 //Se desea probar tanto la declaracion como el llamado de funciones
 
 
-PROGRA Prueba
+PROGRAM Prueba
 
 // se definen funciones con errores
 

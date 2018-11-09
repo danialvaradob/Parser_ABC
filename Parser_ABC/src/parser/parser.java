@@ -689,7 +689,7 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-                parser.report_error("Error, palabra reservada PROGRAM no encontrada", RESULT); 
+                parser.report_error("Error, palabra reservada PROGRAM no encontrada", e); 
            
               CUP$parser$result = parser.getSymbolFactory().newSymbol("program",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -771,7 +771,10 @@ class CUP$parser$actions {
           case 15: // constants_body ::= IDENTIFIER EQUAL error SEMI 
             {
               Object RESULT =null;
-		 parser.report_error("Error al declarar una constante", RESULT);
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		 parser.report_error("Error al declarar una constante", e);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("constants_body",2, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -816,7 +819,10 @@ class CUP$parser$actions {
           case 20: // globals_body ::= IDENTIFIER globals_list COLON error SEMI globals_body 
             {
               Object RESULT =null;
-		 parser.report_error("Tipo no existe", RESULT); 
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		 parser.report_error("Tipo no existe", e); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("globals_body",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -825,8 +831,11 @@ class CUP$parser$actions {
           case 21: // globals_body ::= IDENTIFIER error COLON Type SEMI globals_body 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
 		 
-                                                                    parser.report_error("Error en VAR", RESULT); 
+                                                                    parser.report_error("Error en VAR", e); 
                                                                     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("globals_body",4, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -899,8 +908,11 @@ class CUP$parser$actions {
           case 29: // functions ::= FUNCTION error END 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-                                                               parser.report_error("Error al declarar la funcion", RESULT); 
+                                                               parser.report_error("Error al declarar la funcion", e); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("functions",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -919,8 +931,11 @@ class CUP$parser$actions {
           case 31: // NT$0 ::= 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 
-                                                               parser.report_error("Error al declarar procedimiento", RESULT); 
+                                                               parser.report_error("Error al declarar procedimiento", e); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",30, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -932,6 +947,9 @@ class CUP$parser$actions {
               Object RESULT =null;
               // propagate RESULT from NT$0
                 RESULT = (Object) ((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("functions",7, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -959,11 +977,14 @@ class CUP$parser$actions {
           case 35: // function_header ::= IDENTIFIER OPEN_PARENTHESIS Type IDENTIFIER error CLOSE_PARENTHESIS BEGIN function_body END 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
 		int Typeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int Typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object Type = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
 		
-                        parser.report_error("Error en los argumentos de la funcion", RESULT); 
+                        parser.report_error("Error en los argumentos de la funcion", e); 
                    
               CUP$parser$result = parser.getSymbolFactory().newSymbol("function_header",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -976,8 +997,11 @@ class CUP$parser$actions {
 		int Typeleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int Typeright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object Type = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-                        parser.report_error("Error en el cuerpo de la funcion", RESULT); 
+                        parser.report_error("Error en el cuerpo de la funcion", e); 
                     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("function_header",8, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-8)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1014,8 +1038,11 @@ class CUP$parser$actions {
           case 40: // parameter_list ::= COMMA error IDENTIFIER parameter_list 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 		 
-                    parser.report_error("No especificado el tipo de un parametro", RESULT); 
+                    parser.report_error("No especificado el tipo de un parametro", e); 
                 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("parameter_list",9, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1160,8 +1187,11 @@ class CUP$parser$actions {
           case 56: // if_statement ::= IF OPEN_PARENTHESIS error CLOSE_PARENTHESIS THEN statements else_statement END 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-5)).value;
 		
-                                                               parser.report_error("Error en la condicion", RESULT); 
+                                                               parser.report_error("Error en la condicion", e); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("if_statement",13, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1270,8 +1300,11 @@ class CUP$parser$actions {
           case 68: // while_statement ::= WHILE error DO BEGIN statements END 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-4)).value;
 		
-                                                           parser.report_error("Error en la condicion", RESULT); 
+                                                           parser.report_error("Error en la condicion", e); 
                                                          
               CUP$parser$result = parser.getSymbolFactory().newSymbol("while_statement",16, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1281,8 +1314,11 @@ class CUP$parser$actions {
           case 69: // while_statement ::= WHILE OPEN_PARENTHESIS error CLOSE_PARENTHESIS DO BEGIN statements END 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-5)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-5)).value;
 		
-                                                           parser.report_error("Error en la condicion", RESULT); 
+                                                           parser.report_error("Error en la condicion", e); 
                                                          
               CUP$parser$result = parser.getSymbolFactory().newSymbol("while_statement",16, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1292,8 +1328,11 @@ class CUP$parser$actions {
           case 70: // while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS DO BEGIN error END 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-                                                           parser.report_error("Error en statements", RESULT); 
+                                                           parser.report_error("Error en statements", e); 
                                                          
               CUP$parser$result = parser.getSymbolFactory().newSymbol("while_statement",16, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1315,7 +1354,10 @@ class CUP$parser$actions {
           case 72: // for_statement ::= FOR error TO exp DO BEGIN statements END 
             {
               Object RESULT =null;
-		 parser.report_error("Debe de asignar un valor", RESULT); 
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-6)).value;
+		 parser.report_error("Debe de asignar un valor", e); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("for_statement",17, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-7)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1522,7 +1564,10 @@ class CUP$parser$actions {
           case 95: // fun_call ::= IDENTIFIER OPEN_PARENTHESIS error CLOSE_PARENTHESIS SEMI 
             {
               Object RESULT =null;
-		 parser.report_error("Error en los parametros al llamar la funcion", RESULT); 
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
+		 parser.report_error("Error en los parametros al llamar la funcion", e); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("fun_call",20, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1558,8 +1603,11 @@ class CUP$parser$actions {
           case 99: // assignment ::= IDENTIFIER COLON EQUAL error SEMI 
             {
               Object RESULT =null;
+		int eleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
+		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
+		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-                                                               parser.report_error("Error en la asignacion", RESULT); 
+                                                               parser.report_error("Error en la asignacion", e); 
                                                                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("assignment",19, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-4)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
