@@ -214,8 +214,15 @@ statements ::= if_statement statements |while_statement statements|
 
 if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else_statement END 
                 | IF OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS THEN statements else_statement END {:
-                                                               parser.report_error("Error en la condicion", e); 
-                                                               :};
+                                                               parser.report_error("Error en la condicion IF", e); 
+                                                               :}
+                | IF  error:e CLOSE_PARENTHESIS THEN statements else_statement END {:
+                                                               parser.report_error("Error en la condicion IF, falta parentesis", e); 
+                                                               :}
+                | IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN error:e END {:
+                                                               parser.report_error("Error en la condicion IF, falta parentesis", e); 
+                                                               :}
+                                                               ;
                                                             
 
 
@@ -223,7 +230,7 @@ cond ::= IDENTIFIER cond2| OPEN_PARENTHESIS cond CLOSE_PARENTHESIS cond2|
         TRUE cond2| FALSE cond2 | literal cond2
          |fun_call cond2; 
 
-cond2 ::= BOOLEAN_OPERATOR cond | /*epsilon*/ ;
+cond2 ::= BOOLEAN_OPERATOR cond |EQUAL cond | /*epsilon*/ ;
          
 
 else_statement ::= ELSE statements | /*epsilon*/; 
@@ -231,19 +238,27 @@ else_statement ::= ELSE statements | /*epsilon*/;
 
 while_statement ::= WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS  DO BEGIN statements END 
                     | WHILE error:e DO BEGIN statements END{:
-                                                           parser.report_error("Error en la condicion", e); 
+                                                           parser.report_error("Error en la condicion en WHILE", e); 
                                                          :}
                     | WHILE OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS DO BEGIN statements END{:
-                                                           parser.report_error("Error en la condicion", e); 
+                                                           parser.report_error("Error en la condicion en WHILE", e); 
                                                          :}
                     | WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS DO BEGIN error:e END{:
-                                                           parser.report_error("Error en statements", e); 
+                                                           parser.report_error("Error en statements en WHILE", e); 
                                                          :} 
+                    | WHILE OPEN_PARENTHESIS cond CLOSE_PARENTHESIS DO error:e END{:
+                                                           parser.report_error("Error en WHILE", e); 
+                                                         :} 
+                    | WHILE  error:e CLOSE_PARENTHESIS DO BEGIN statements END{:
+                                                           parser.report_error("Error en la condicion en WHILE, falta parentesis", e); 
+                                                         :}
+
                                                          ;
 
 
-for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END | 
-                  FOR error:e TO exp DO BEGIN statements END {: parser.report_error("Debe de asignar un valor", e); :};
+for_statement ::= FOR IDENTIFIER :EQUAL exp TO exp DO BEGIN statements END 
+                | FOR error:e TO exp DO BEGIN statements END {: parser.report_error("Debe de asignar un valor", e); :}
+                | FOR error:e END {: parser.report_error("Error en el FOR", e); :} ;
 
 literal ::= FLOATING_POINT_NUMERIC_LITERAL | 
         INTEGER_NUMERIC_LITERAL | SCIENTIFIC_NOTATION_NUMERIC_LITERAL | 
@@ -264,14 +279,24 @@ exp2 ::= BOOLEAN_OPERATOR exp exp2 | ARITHMETICOP exp exp2 |
 
 fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS 
         | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS  
-        | IDENTIFIER OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS SEMI{: parser.report_error("Error en los parametros al llamar la funcion", e); :};
+        | IDENTIFIER OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS SEMI {: parser.report_error("Error en los parametros al llamar la funcion", e); :}
+        | IDENTIFIER  error:e CLOSE_PARENTHESIS SEMI {: parser.report_error("Error en los parametros al llamar la funcion", e); :}
+        | IDENTIFIER  error:e  SEMI {: parser.report_error("Error en los parametros al llamar la funcion", e); :}
+
+        ;
+
+
 
 
 parameter_list_call ::= /*epsilon*/ | COMMA exp parameter_list ;
 
-assignment ::= IDENTIFIER COLON EQUAL exp SEMI | IDENTIFIER COLON EQUAL error:e SEMI {:
-                                                               parser.report_error("Error en la asignacion", e); 
-                                                               :};
+assignment ::= IDENTIFIER COLON EQUAL exp SEMI 
+            | IDENTIFIER COLON EQUAL error:e SEMI {:
+                                                    parser.report_error("Error en la asignacion", e); 
+                                                  :}
+             
+            ;
+
 
 
 
