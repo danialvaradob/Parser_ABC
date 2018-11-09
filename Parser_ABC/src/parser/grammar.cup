@@ -150,9 +150,9 @@ globals ::= VAR globals_body ;
 
 globals_body ::= /*epsilon*/ | IDENTIFIER globals_list COLON Type SEMI globals_body  
                  |  IDENTIFIER globals_list COLON error:e SEMI globals_body {: parser.report_error("Tipo no existe", e); :} 
-                 |  error:e  {: 
-                                                                    parser.report_error("Error en VAR", e); 
-                                                                    :};
+                 |  error:e SEMI {: 
+                                  parser.report_error("Error en VAR", e); 
+                                   :};
 
 
 globals_list ::= COMMA IDENTIFIER globals_list 

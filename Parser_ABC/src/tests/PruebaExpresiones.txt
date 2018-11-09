@@ -8,12 +8,12 @@ PROGRAM Prueba
 
 VAR
 
- i,xint
+ i,xint;
 
 BEGIN
 
 i:= ++x;
-i:= funcion1(4);
+i:== funcion1(4);
 x:=2; //error no mas de una asignacion en cada linea. segun acuerdo en la clase
 
 i:= funcion1(x=3);
