@@ -67,8 +67,8 @@ public class Scanner {
             parser p = new parser(analizadorJFlex);
 
             //printScannedTokens(analizadorJFlex); 
-            printLexicalErrors(analizadorJFlex);
-            //Object result = p.parse().value; 
+            //printLexicalErrors(analizadorJFlex);
+            Object result = p.parse().value; 
             //Object result2 = p.debug_parse();
             
             //System.out.println("  \n \n \n \n");

@@ -8,7 +8,7 @@ PROGRAM Prueba
 
 VAR
 
- i,x:int;
+ i,xint
 
 BEGIN
 
