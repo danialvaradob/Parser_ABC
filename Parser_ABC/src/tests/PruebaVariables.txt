@@ -25,6 +25,7 @@ BEGIN
 END
 
 PROCEDURE funcion1() //tiene errores
+BEGIN
 VAR
    variable; // no le define tipo
    i: int;
@@ -37,13 +38,13 @@ END
 
 
 BEGIN
-VAR //error pues no se permiten variables globales dentro del bloque
-I: int;
+//VAR //error pues no se permiten variables globales dentro del bloque
+//I: int;
 
 //Pruebas del READ - WRITE
 
 
-	read;  //se espera error
+	read();  //se espera error
     read(X);
     read(123);  //se espera error, pues no se acepta expresion entre ( )
 

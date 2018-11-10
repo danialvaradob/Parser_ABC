@@ -153,7 +153,7 @@ globals ::= VAR globals_body ;
 globals_body ::= /*epsilon*/ | IDENTIFIER globals_list COLON Type SEMI globals_body  
                  |  IDENTIFIER globals_list COLON error:e SEMI globals_body {: parser.report_error("Tipo no existe\n", e); :} 
                  |  error:e SEMI {: 
-                                  parser.report_error("Error en VAR", e); 
+                                  parser.report_error("Error en VAR\n", e); 
                                    :};
 
 
@@ -230,6 +230,7 @@ if_statement ::= IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN statements else
                 | IF OPEN_PARENTHESIS cond CLOSE_PARENTHESIS THEN BEGIN:e statements else_statement END {:
                                                                parser.report_error("Syntax error in line " + eleft + ": El if no lleva BEGIN\n", e); 
                                                                :}
+                
                                                                ;
                                                             
 
@@ -292,7 +293,7 @@ fun_call ::= IDENTIFIER OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHES
         | IDENTIFIER OPEN_PARENTHESIS CLOSE_PARENTHESIS SEMI
         | IDENTIFIER OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS SEMI {: parser.report_error("Error en los parametros al llamar la funcion\n", e); :}
         | IDENTIFIER  error:e CLOSE_PARENTHESIS SEMI {: parser.report_error("Error en los parametros al llamar la funcion\n", e); :}
-        | IDENTIFIER  error:e  SEMI {: parser.report_error("Error en los parametros al llamar la funcion\n", e); :}
+        //| IDENTIFIER  error:e  SEMI {: parser.report_error("Error en los parametros al llamar la funcion\n", e); :}
         | IDENTIFIER  OPEN_PARENTHESIS error:e SEMI {: parser.report_error("Error en los parentesis al llamar la funcion\n", e); :}
         ;
 
@@ -305,7 +306,7 @@ assignment ::= IDENTIFIER COLON EQUAL exp SEMI
             | IDENTIFIER COLON EQUAL error:e SEMI {:
                                                     parser.report_error("Error en la asignacion\n", e); 
                                                   :}
-            //| error:e SEMI {:parser.report_error("Error en la asignacion\n", e); :}
+            | IDENTIFIER error:e SEMI {:parser.report_error("Error en la asignacion\n", e); :}
              
             ;
 
@@ -313,9 +314,13 @@ assignment ::= IDENTIFIER COLON EQUAL exp SEMI
 
 
 read ::= READ OPEN_PARENTHESIS IDENTIFIER CLOSE_PARENTHESIS SEMI
-        |READ OPEN_PARENTHESIS CLOSE_PARENTHESIS;
+        |READ OPEN_PARENTHESIS CLOSE_PARENTHESIS SEMI
+        |READ OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS SEMI{:parser.report_error("Error en el READ\n", e);:}
 
-write ::= WRITE OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS SEMI;
+        ;
+
+write ::= WRITE OPEN_PARENTHESIS exp parameter_list_call CLOSE_PARENTHESIS SEMI
+            | WRITE OPEN_PARENTHESIS error:e CLOSE_PARENTHESIS SEMI {:parser.report_error("Error en el WRITE: se necesita al menos un parametro\n", e);:};
 
 
 
