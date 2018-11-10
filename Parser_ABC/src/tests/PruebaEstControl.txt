@@ -11,31 +11,28 @@ BEGIN
 
 // Pruebas del IF
 
-  if (X) then //deberia dar error, pues debe haber una expresion
+  if () then //deberia dar error, pues debe haber una expresion
    i:=0;
   else
     i:=0;
-  end
 
-  if (a<>TRUE) then //deberia dar error, pues no cierra la expresion
+  if (a<>TRUE then //deberia dar error, pues no cierra la expresion
      i:=0;
   else
     i:=0;
-  END
 
-  if (x=2) then //error sin then
+  if (x=2)  //error sin then
      i:= x++;
   else
       i:= x--;
-  END
 
     if (x>4)  then //deberia aceptar if anidados y cualquier tipo de expresion dentro de ( )
-    BEGIN
+   BEGIN
         if (a>=2) then
           i:= x++;
         else
            i:=x--;
-   END 
+   END
    else
    BEGIN
       i:= x;
@@ -76,7 +73,6 @@ BEGIN
 
 
         while (a>8) do
-BEGIN
 		  i:=0;//falta el BEGIN
         END
 
@@ -90,3 +86,7 @@ BEGIN
         END
 
 END
+
+
+
+

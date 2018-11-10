@@ -11,10 +11,10 @@ BEGIN
 END
 
 
-(*PROCEDURE funcion3( int, int)  //no definio los identificadores
+PROCEDURE funcion3( int, int)  //no definio los identificadores
 BEGIN
  funcion3:=0;
-END*)
+END
 
 
 
@@ -35,5 +35,5 @@ END
 
 
 BEGIN
- write ("Fin");
+ write("Fin");
 END
