@@ -352,7 +352,7 @@ R_Int
 }
 
 {R_For} {
-    Symbol t = new Symbol(sym.FUNCTION, yyline, yycolumn, (Object)yytext());
+    Symbol t = new Symbol(sym.FOR, yyline, yycolumn, (Object)yytext());
     this._existenTokens = true;
     return t;
 }

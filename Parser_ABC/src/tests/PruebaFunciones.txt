@@ -5,35 +5,35 @@ PROGRAM Prueba
 
 // se definen funciones con errores
 
-PROCEDURE funcion1 (int x, int y) // parametros de forma incorrecta
+PROCEDURE funcion1( x:int, y:int) // parametros de forma incorrecta
 BEGIN
  funcion1:=0;
 END
 
 
-PROCEDURE funcion3 (int x, int y)  //no definio los identificadores
+(*PROCEDURE funcion3( int, int)  //no definio los identificadores
 BEGIN
  funcion3:=0;
-END
+END*)
 
 
 
-FUNCTION funcionBuena(int x):int
+FUNCTION funcionBuena(int x)
 BEGIN
- funcionBuena(x=3); //llamada correcta a una funcion
+ funcionBuena(1); //llamada correcta a una funcion
  funcion();  //se espera que la acepte, aunque no este declarada y sin parametros
 
- funcion(4);   //llamada incorrecta
+ funcion(4;   //llamada incorrecta
  funcionBuena:=0;
 END
 
 
-FUNCTION funcion8():string // error no tiene los parentesis de los parametros
+FUNCTION funcion8 // error no tiene los parentesis de los parametros
 BEGIN
  funcion5:=0; 
 END
 
 
 BEGIN
- write("Fin");
+ write ("Fin");
 END

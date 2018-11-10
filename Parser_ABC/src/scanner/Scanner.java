@@ -31,7 +31,7 @@ public class Scanner {
                     Symbol token = analizadorJFlex.next_token();
                     if (!analizadorJFlex.existenTokens())
                     break;
-                    //System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
+                    System.out.println(sym.terminalNames[token.sym]  + " " + token.value.toString());
                     //Object result = p.parse().value; 
             }
         }catch(Exception e){}
@@ -46,13 +46,14 @@ public class Scanner {
                     if (!analizadorJFlex.existenTokens())
                     break;
             }
+            
         }catch(Exception e){}
             
     }
     public static void main(String [ ] args){
 
         try{
-            File file = new File("src/tests/PruebaEstControl.txt");
+            File file = new File("src/tests/PruebaFunciones.txt");
 
             String path = file.getAbsolutePath();
            // Path p = Paths.get("prueba.txt");
@@ -64,16 +65,18 @@ public class Scanner {
             // Se trata de leer el archivo y analizarlo en la clase que se ha creado con JFlex
             BufferedReader buffer = new BufferedReader(new FileReader(archivo));
             ScannerABC analizadorJFlex = new ScannerABC(buffer);
-            parser p = new parser(analizadorJFlex);
-
-            //printScannedTokens(analizadorJFlex); 
-            //printLexicalErrors(analizadorJFlex);
+            parser p = new parser(analizadorJFlex); 
+            //printScannedTokens(analizadorJFlex);
+            printLexicalErrors(analizadorJFlex);
+            
+            
+            buffer = new BufferedReader(new FileReader(archivo));
+            analizadorJFlex = new ScannerABC(buffer);
+            p = new parser(analizadorJFlex);
+            
             Object result = p.parse().value; 
             //Object result2 = p.debug_parse();
             
-            //System.out.println("  \n \n \n \n");
-            
-//            table.printTable();
             
         }catch (Exception e){
             System.out.println(e.toString());

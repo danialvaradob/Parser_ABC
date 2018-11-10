@@ -1321,7 +1321,7 @@ private Symbol symbol(String value, int type, int line) {
           case 68: break;
           case 20: 
             { Symbol t = new Symbol(sym.ERROR_FLOATING_POINT, yyline, yycolumn, (Object)yytext());
-    System.err.println("Lexical error in line " + yyline + ": " + "Error en float ( " + (Object)yytext() + " )" );
+    System.err.println("Lexical error in line " + yyline + ": " + "Error en numero racional ( " + (Object)yytext() + " )" );
     this._existenTokens = true;
     return t;
             }
