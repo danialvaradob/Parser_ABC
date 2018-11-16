@@ -12,25 +12,17 @@ VAR
 
 BEGIN
 
-i:= ++x;
-i:= funcion1(4);
-x:=2 :=4; //error no mas de una asignacion en cada linea. segun acuerdo en la clase
+    
+    read();
+    read(X);
+    read(123);  //se espera error, pues no se acepta expresion entre ( )
+    read(x++); //se espera error
 
-i:= funcion1(x=3);
-
-i:= funcion1(3 - x);
-caña := 8; // error lexico
-
-While (a > 3) do
-BEGIN
-  i:= 3;
-END
-
-While (1*4) do  // en una condicion no pueden venir operaciones aritmeticas
-BEGIN
-  i:= 3;
-END
-
+    write(213+ 518- 345);
+    write(C);
+    write(C, 123, "Hola");
+    write( );     //se espera error]
+    write ;       //se espera error
 END
 
 
